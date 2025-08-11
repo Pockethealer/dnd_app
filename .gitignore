@@ -1,0 +1,11 @@
+*create_admin*
+instance
+*.pyc
+*pycache*
+resources/
+migrations/
+migrate_db*
+media/
+config.py
+__init__.py
+TODO
