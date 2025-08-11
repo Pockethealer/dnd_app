@@ -1,4 +1,5 @@
-/*---------------------------------page tree----------------------------------------*/
+/*--------------------------------- Page Tree ----------------------------------*/
+
 #page-tree ul {
   list-style: none;
   padding-left: 1rem;
@@ -18,21 +19,26 @@
   text-decoration: underline;
   color: #bbdefb;
 }
-/*-----------------------------------sidebar--------------------------------------*/
-#content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
+
+/*----------------------------------- Layout -----------------------------------*/
 
 #layout {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar container */
+/* Content area */
+#content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/*---------------------------------- Sidebar -----------------------------------*/
+
 #sidebar {
-  width: auto;
+  width: 250px; /* fixed width */
   background-color: var(--bg-lighter);
   color: var(--text-color);
   font-family: "Segoe UI", sans-serif;
@@ -43,23 +49,33 @@
   height: 100vh;
   position: sticky;
   top: 0;
+  box-sizing: border-box;
+  transition: width 0.3s ease, padding 0.3s ease;
   overflow: hidden;
 }
 
-/* List style reset */
+/* Sidebar collapsed state */
+#sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  border-right: none;
+  overflow: hidden;
+}
+
+/* Sidebar lists */
 .sidebar ul {
   list-style: none;
   padding-left: 0;
   margin: 0;
 }
 
-/*----------------------------------Items---------------------------------------*/
-/* Sidebar item */
+/* Sidebar items */
 .sidebar-item {
   margin: 4px 0;
   position: relative;
 }
-/* Links */
+
+/* Sidebar links */
 .sidebar-link {
   color: var(--text-color);
   text-decoration: none;
@@ -97,7 +113,7 @@
   padding-left: 10px;
 }
 
-/* Optional: Indentation by level (for spacing) */
+/* Indentation by level */
 .level-0 > .sidebar-link {
   font-weight: bold;
   font-size: 1rem;
@@ -112,14 +128,14 @@
   font-size: 0.9rem;
   color: #bbbbff;
 }
-/*----------------------------------collapse---------------------------------------*/
 
-/* Collapse button */
+/*--------------------------- Sidebar Toggle Button ----------------------------*/
+
 #sidebar-toggle {
   position: fixed;
   bottom: 1rem;
   left: 1rem;
-  z-index: 2000;
+  z-index: 9999; /* very high to stay on top */
 
   background-color: #444;
   color: white;
@@ -130,22 +146,41 @@
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: background-color 0.2s ease;
+  display: block; /* ensure visible */
+  user-select: none;
 }
 
 #sidebar-toggle:hover {
   background-color: #666;
 }
 
-/* Adjust layout if sidebar is collapsed */
-#sidebar.collapsed {
-  width: 0;
-  padding: 0;
-  overflow: hidden;
-  border-right: none;
-  transition: width 0.3s ease, padding 0.3s ease;
+/* ---------------- Responsive Positioning ---------------- */
+
+/* Tablets (max-width: 768px) */
+@media (max-width: 768px) {
+  #sidebar-toggle {
+    position: fixed; /* keep fixed so it stays visible */
+    top: 0.5rem;
+    right: 0.5rem;
+    left: auto;
+    bottom: auto;
+    z-index: 9999;
+  }
 }
-/*-------------------------------------------------------------------------*/
-/* ---------------- SIDEBAR RESPONSIVENESS ---------------- */
+
+/* Phones (max-width: 480px) */
+@media (max-width: 480px) {
+  #sidebar-toggle {
+    position: fixed;
+    top: 0.8rem;
+    left: 0.8rem;
+    bottom: auto;
+    right: auto;
+    z-index: 9999;
+  }
+}
+
+/*------------------------ Responsive Sidebar -------------------------------*/
 
 /* Tablets and smaller */
 @media (max-width: 768px) {
@@ -160,19 +195,21 @@
     border-right: none;
     border-bottom: 1px solid var(--border-color);
     overflow: visible;
+    padding: 1rem;
+    box-sizing: border-box;
   }
 
   #content {
     padding: 1rem;
   }
 
-  /* Collapse toggle button repositioned */
-  #sidebar-toggle {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    left: auto;
-    bottom: auto;
+  /* When collapsed, hide sidebar height but keep width for sliding if needed */
+  #sidebar.collapsed {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border-bottom: none;
+    transition: height 0.3s ease, padding 0.3s ease;
   }
 }
 
@@ -182,31 +219,30 @@
     flex-direction: column;
   }
 
+  /* Hide sidebar by default on phones */
   #sidebar {
-    display: none; /* Hide sidebar by default for small screens */
+    display: none;
   }
 
+  /* Show sidebar when active */
   #sidebar.active {
     display: block;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 80%;
-    height: 100%;
+    height: 100vh;
     background-color: var(--bg-lighter);
-    z-index: 3000;
+    z-index: 4000;
     padding: 1rem;
     overflow-y: auto;
+    box-sizing: border-box;
+    border-right: 1px solid var(--border-color);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
   }
 
+  /* Adjust content padding */
   #content {
     padding: 0.8rem;
-  }
-
-  #sidebar-toggle {
-    position: fixed;
-    top: 0.8rem;
-    left: 0.8rem;
-    z-index: 4000;
   }
 }

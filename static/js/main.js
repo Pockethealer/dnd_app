@@ -48,6 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   /*--------------------------------------tooltips--------------------------------------------------*/
   //Tooltip
+  let activeTarget = null;
+
   const tooltipContainer = getTooltipContainer();
   if (window.matchMedia("(hover: hover)").matches) {
     document.body.addEventListener(
@@ -100,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
       async (e) => {
         const target = e.target.closest("a[data-model][data-name]");
         const insideTooltip = tooltipContainer.contains(e.target);
-
+        if (e.target.closest(".navbar-toggle")) return;
         // Tap on a link with tooltip
         if (target) {
           e.preventDefault();
@@ -121,12 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       true
     );
-
-    // Optional: hide tooltip on scroll
-    window.addEventListener("scroll", () => {
-      tooltipContainer.style.display = "none";
-      activeTarget = null;
-    });
   }
   //making links uninteractive
   document.body.addEventListener("click", (e) => {
@@ -236,6 +232,22 @@ document.addEventListener("DOMContentLoaded", () => {
         htmlContainer.style.display = "none";
       }
     });
+  }
+  /*--------------------------------------navbar--------------------------------------------------*/
+
+  const toggleButton = document.querySelector(".navbar-toggle");
+  const navbarLeft = document.querySelector(".navbar-left");
+  const navbarRight = document.querySelector(".navbar-right");
+  if (toggleButton) {
+    toggleButton.addEventListener(
+      "click",
+      () => {
+        navbarLeft.classList.toggle("active");
+        navbarRight.classList.toggle("active");
+        console.log("clicked");
+      },
+      false
+    );
   }
 });
 /*--------------------------------------Galery--------------------------------------------------*/
