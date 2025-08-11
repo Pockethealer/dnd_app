@@ -1,0 +1,56 @@
+{% macro render_page_tree(page, level=0) %}
+<li>
+  {% if page.children.count() > 0 %}
+  <span class="side-toggle">&#9654;</span>
+  {% endif %}
+  <a href="{{ url_for('views.view_page', slug=page.slug) }}"
+    >{{ page.title }}</a
+  >
+
+  {% if page.children.count() > 0 %}
+  <ul class="submenu" style="display: {{ 'none' if level >= 1 else 'block' }}">
+    {% for child in page.children.order_by('title') %} {{
+    render_page_tree(child, level + 1) }} {% endfor %}
+  </ul>
+  {% endif %}
+</li>
+{% endmacro %} {% macro floating_button(slug, title="Edit This Page") %}
+<a
+  href="{{ url_for('page_editor.edit_page', slug=slug) }}"
+  class="floating-button"
+  title="{{ title }}"
+>
+  <span class="simple-pencil"></span>
+</a>
+{% endmacro %} {% macro render_comment(comment, user, level=0) %}
+<div class="comment-container" style="margin-left: {{ level * 20 }}px;">
+  <div class="comment-header">
+    <div class="comment-username">{{ comment.user.name }}</div>
+    <div class="comment-time">
+      {{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}
+    </div>
+  </div>
+  <div class="comment-text">
+    {{ comment.comment_text }} {% if user.id == comment.user.id or user.is_admin
+    %}
+    <div class="comment-actions">
+      <form
+        action="{{ url_for('views.delete_comment', comment_id=comment.id) }}"
+        method="post"
+        onsubmit="return confirm('Are you sure you want to delete this comment?');"
+      >
+        <button type="submit" class="btn-danger">Delete</button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+  <form class="reply-form" method="POST">
+    <input type="hidden" name="parent_id" value="{{ comment.id }}" />
+    <textarea name="text" placeholder="Reply..." required></textarea>
+    <button type="submit">Reply</button>
+  </form>
+
+  {% for reply in comment.replies %} {{ render_comment(reply, user, level + 1)
+  }} {% endfor %}
+</div>
+{% endmacro %}

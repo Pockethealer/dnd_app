@@ -1,0 +1,85 @@
+{%extends "base.html"%} {%block title%}Home{%endblock%} {% block content %}
+<body>
+  <section class="landing-container">
+    <div class="hero">
+      <h1>The Fool's Legacy</h1>
+      <p class="tagline">
+        A living world shaped by the choices of brave adventurers.
+      </p>
+      <div class="divider"></div>
+
+      <div class="next-session">
+        <h2>Upcoming Sessions</h2>
+        <ul>
+          {% for session in upcoming_sessions %}
+          <li class="session-item">
+            <h3>
+              {{ session.campaign_name }} - Session {{ session.session_no }}
+            </h3>
+            {% if session.image %}
+            <div class="session-image-container">
+              <img
+                src="{{ url_for('upload.media_file', filename=session.image) }}"
+                alt="Image for {{ session.name }}"
+                class="session-image"
+              />
+            </div>
+            {%endif%}
+            <p>
+              <strong>Date:</strong> {{ session.session_date.strftime("%Y %b %d
+              ") if session.session_date else "TBA" }}
+            </p>
+            <p><strong>Title:</strong> {{ session.name }}</p>
+            <p>
+              <strong></strong> {{ session.notes[:150] ~ ('...' if
+              session.notes|length > 150 else '') }}
+            </p>
+            <p>
+              <strong>Players:</strong>
+              {% if session.players.count() > 0 %}{% for player in
+              session.players %}
+              <a
+                href="#"
+                class="link"
+                data-name="{{ player.name | lower }}"
+                data-model="player"
+                >{{ player.name }}</a
+              >{% if not loop.last %}, {% endif %} {% endfor %} {% else %} None
+              {% endif %}
+            </p>
+          </li>
+          {% else %}
+          <li>No upcoming sessions.</li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="session-logs">
+        <h2>Past Sessions</h2>
+        <ul>
+          {% for session in past_sessions %}
+          <li class="session-item">
+            <h3>
+              {{ session.campaign_name }} - Session {{ session.session_no }}
+            </h3>
+            <p>
+              <strong>Date:</strong> {{ session.session_date.strftime("%b %d,
+              %Y") if session.session_date else "Unknown" }}
+            </p>
+            <p><strong>Title:</strong> {{ session.name }}</p>
+            <p>
+              {{ session.notes[:150] ~ ('...' if session.notes|length > 150 else
+              '') }}
+            </p>
+          </li>
+          {% else %}
+          <li>No past sessions.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </section>
+</body>
+{% endblock %}

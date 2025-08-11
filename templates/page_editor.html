@@ -1,0 +1,54 @@
+{%extends "base.html"%} {%block title%}Login{%endblock%} {% block content %}
+<div class="editor-container">
+<form id="page-editor" data-model="page">
+  <input type="hidden" name="id" value="{{ page.id if page else '' }}">
+  <input type="hidden" name="page_type" value="page">
+  <!-- Page Title -->
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" class="form-control" value="{{ page.title if page else '' }}">
+  </div>
+
+  <!-- Parent Page Dropdown -->
+  <div class="form-group">
+    <label for="parent_id">Parent Page</label>
+    <select id="parent_id" name="parent_id" class="form-control">
+      <option value="">-- No parent --</option>
+      {% for parent in all_pages %}
+        {% if not page or parent.id != page.id %}        
+          <option value="{{ parent.id }}" {% if page and page.parent_id == parent.id %}selected{% endif %}>
+            {{ parent.title }}
+          </option>
+        {% endif %}
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="form-group">
+  <label>
+    <input type="checkbox" id="toggle-editor" />
+    Edit as HTML (If you edit the page as an html the markdown field should be empty otherwise the html content will be overridden by the markdown content)
+  </label>
+</div>
+
+<!-- Markdown Content -->
+<div class="form-group" id="markdown-container">
+  <label for="content_md">Markdown Content</label>
+  <textarea id="content_md" name="content_md" rows="10" class="form-control">{{ page.content_md if page else '' }}</textarea>
+</div>
+
+<!-- HTML Content -->
+<div class="form-group" id="html-container"style="display:none;">
+  <label for="content">HTML Content</label>
+  <textarea id="content" name="content" rows="10" class="form-control">{{ page.content if page else '' }}</textarea>
+</div>
+
+  <!-- Save Button -->
+  <button type="submit" id="save-btn" class="btn btn-success">Save</button>
+  {% if page %}
+    <button type="button" id="delete-page-btn" class="btn btn-danger mt-2">Delete Page</button>
+  {% endif %}
+</form>
+<div class="preview-box">The page will be rendered here after changes.</div>
+</div>
+{% endblock %}

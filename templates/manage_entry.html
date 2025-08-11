@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block title %}Entry Management{% endblock %} {%
+block content %}
+<h2>Entry Management</h2>
+<div class="entry-container">
+  <div>
+    <div>
+      <label for="pageType" class="form-label fw-bold">Select Entry Type</label>
+      <select id="pageType" class="form-select">
+        <option value="" disabled selected>Choose entry type...</option>
+        <option value="player">Player</option>
+        <option value="page">Page</option>
+        <option value="quest">Quests</option>
+        <option value="npc">NPC</option>
+        <option value="item">Item</option>
+        <option value="spell">Spell</option>
+        <option value="monster">Monster</option>
+        <option value="session">Session</option>
+        <option value="pathway">Pathway</option>
+        <option value="sequence">Pathway Sequence</option>
+      </select>
+    </div>
+
+    <div>
+      <button id="createNewButton">Create New</button>
+      <button id="resetFormButton">Clear Form</button>
+    </div>
+
+    <div>
+      <label for="editEntrySelect" class="form-label"
+        >Edit Existing Entry</label
+      >
+      <select id="editEntrySelect" class="form-select" disabled>
+        <option value="" disabled selected>Select an entry to edit</option>
+      </select>
+    </div>
+  </div>
+  <!-- Left: Form -->
+  <div class="entry-form">
+    <form id="dynamicForm" class="form middle" style="display: none">
+      <!-- Dynamic form fields will be injected here -->
+    </form>
+  </div>
+  <!-- Right: List of entries -->
+  <div class="entry-list" id="entryList">
+    <!-- JS will inject entries here as cards -->
+  </div>
+</div>
+
+{% endblock %}

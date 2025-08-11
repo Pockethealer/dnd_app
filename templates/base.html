@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+
+    <!-- Basic favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <!-- PNG icons for various sizes -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="48x48" href="{{ url_for('static', filename='images/favicon-48x48.png') }}">
+    <!-- Apple Touch Icon for iOS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <!-- Android/Chrome icon -->
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/android-chrome-192x192.png') }}">
+    <!-- PWA icon -->
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='images/android-chrome-512x512.png') }}">
+
+
+    <title>{% block title %}Home{% endblock %}</title>
+  </head>
+
+  <body>
+    <!-- TODO -->
+    {% from "wiki/_macros.html" import render_page_tree %}
+
+    <nav class="navbar">
+      {% if user.is_authenticated %}
+      <div class="navbar-left">
+        <a id="home" href="/">Home</a>
+        <a id="createPage" href="/manage-entry">Manage Entries</a>
+        <a id="wiki" href="/wiki">Wiki</a>
+        <a id="browse-media" href="/browse">Browse Media</a>
+        <a id="upload" href="/upload">Upload</a>
+
+      </div>
+      {%endif%}
+      <div class="navbar-right">
+        {% if user.is_authenticated %} {% if user.is_admin %}
+        <a id="admin" href="/admin">Admin settings</a>
+        {%endif%}
+        <a id="logout" href="/logout">Logout</a>
+        {%else%}
+        <a id="login" href="/login">Login</a>
+        {%endif%}
+      </div>
+    </nav>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+      <div
+        class="flash-message {{ 'flash-success' if category == 'success' else 'flash-error' }}"
+      >
+        {{ message }}
+        <span
+          class="close-btn"
+          aria-label="close"
+          onclick="this.parentElement.style.display='none';"
+          >&times;</span
+        >
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <!-- Flex container for sidebar + content -->
+
+    <div id="layout">
+      <aside id="sidebar" class="sidebar {% if sidebar_state != 'visible' %}collapsed{% endif %}"">
+        <div id="page-tree">
+          {% for page in pages %} {{ render_page_tree(page) }} {% endfor %}
+        </div>
+      </aside>
+
+      <main id="content">
+        <div id="flash-container"></div>
+        <div id="tooltip-container" class="tooltip-container"></div>
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+
+    
+
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/main.js') }}"
+    ></script>
+  </body>
+</html>

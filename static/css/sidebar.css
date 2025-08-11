@@ -1,0 +1,212 @@
+/*---------------------------------page tree----------------------------------------*/
+#page-tree ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+#page-tree li {
+  margin: 0.5rem 0;
+}
+
+#page-tree a {
+  text-decoration: none;
+  color: #90caf9;
+  font-weight: 500;
+}
+
+#page-tree a:hover {
+  text-decoration: underline;
+  color: #bbdefb;
+}
+/*-----------------------------------sidebar--------------------------------------*/
+#content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+#layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar container */
+#sidebar {
+  width: auto;
+  background-color: var(--bg-lighter);
+  color: var(--text-color);
+  font-family: "Segoe UI", sans-serif;
+  font-size: 15px;
+  padding: 1rem;
+  border-right: 1px solid #fff;
+  overflow-y: auto;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+}
+
+/* List style reset */
+.sidebar ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/*----------------------------------Items---------------------------------------*/
+/* Sidebar item */
+.sidebar-item {
+  margin: 4px 0;
+  position: relative;
+}
+/* Links */
+.sidebar-link {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 6px 10px;
+  display: inline-block;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: #2e2e42;
+  color: #ffffff;
+}
+
+/* Toggle arrow */
+.side-toggle {
+  cursor: pointer;
+  margin-right: 6px;
+  user-select: none;
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+  color: #c0c0ff;
+  transition: transform 0.3s ease;
+}
+
+.side-toggle.collapsed {
+  transform: rotate(-90deg);
+}
+
+/* Nested submenu styling */
+.submenu {
+  margin-left: 16px;
+  border-left: 1px solid #2d2d44;
+  padding-left: 10px;
+}
+
+/* Optional: Indentation by level (for spacing) */
+.level-0 > .sidebar-link {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.level-1 > .sidebar-link {
+  font-size: 0.95rem;
+}
+
+.level-2 > .sidebar-link,
+.level-3 > .sidebar-link {
+  font-size: 0.9rem;
+  color: #bbbbff;
+}
+/*----------------------------------collapse---------------------------------------*/
+
+/* Collapse button */
+#sidebar-toggle {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 2000;
+
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+#sidebar-toggle:hover {
+  background-color: #666;
+}
+
+/* Adjust layout if sidebar is collapsed */
+#sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-right: none;
+  transition: width 0.3s ease, padding 0.3s ease;
+}
+/*-------------------------------------------------------------------------*/
+/* ---------------- SIDEBAR RESPONSIVENESS ---------------- */
+
+/* Tablets and smaller */
+@media (max-width: 768px) {
+  #layout {
+    flex-direction: column;
+  }
+
+  #sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    overflow: visible;
+  }
+
+  #content {
+    padding: 1rem;
+  }
+
+  /* Collapse toggle button repositioned */
+  #sidebar-toggle {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    left: auto;
+    bottom: auto;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  #layout {
+    flex-direction: column;
+  }
+
+  #sidebar {
+    display: none; /* Hide sidebar by default for small screens */
+  }
+
+  #sidebar.active {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 100%;
+    background-color: var(--bg-lighter);
+    z-index: 3000;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+
+  #content {
+    padding: 0.8rem;
+  }
+
+  #sidebar-toggle {
+    position: fixed;
+    top: 0.8rem;
+    left: 0.8rem;
+    z-index: 4000;
+  }
+}

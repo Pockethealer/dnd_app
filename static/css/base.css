@@ -1,0 +1,107 @@
+:root {
+  --bg-color: #1e1f24;
+  --bg-lighter: #2a2b31;
+  --text-color: #f0f0f0;
+  --link-color: #4fc3f7; /* electric blue */
+  --link-hover: #82d0f9; /* lighter electric blue */
+  --subtle-text: #b3b3b3;
+  --border-color: #444;
+  --accent: #5c6ac4;
+  --accent-hover: #3e4ca3;
+  --success: #28a745;
+  --danger: #d9534f;
+  --btn-hover: rgba(255, 255, 255, 0.08);
+}
+/*-------------------------------BODY------------------------------------------*/
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  overflow-x: hidden;
+  padding: 0;
+  /* display: flex;
+    flex-direction: row;
+    min-height: 100vh; */
+}
+
+.container {
+  max-width: 95%;
+  margin: auto;
+  background: var(--bg-lighter);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+/*-------------------------------------links------------------------------------*/
+a,
+.link {
+  color: var(--link-color);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+a:hover,
+a:focus,
+.link:hover,
+.link:focus {
+  color: var(--link-hover);
+  outline: none;
+  text-decoration: none;
+}
+
+a:active,
+link:active {
+  color: var(--success);
+}
+
+/* Force inheritance if a parent sets color */
+span[style] > .link,
+span[style] > a.link {
+  color: inherit;
+}
+
+a[href="#"] {
+  cursor: help;
+  color: var(--link-color);
+  text-decoration: underline dotted;
+}
+
+a[href="#"]:hover,
+a[href="#"]:focus {
+  color: var(--link-hover);
+  text-decoration: underline;
+  outline: none;
+}
+/* ---------------- MOBILE RESPONSIVENESS ---------------- */
+
+/* For tablets and smaller screens */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  body {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  body {
+    font-size: 0.9rem;
+  }
+
+  /* Optional: make links easier to tap */
+  .link {
+    font-size: 1rem;
+    padding: 0.2em 0;
+  }
+}

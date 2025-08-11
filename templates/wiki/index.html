@@ -1,0 +1,132 @@
+{% extends "base.html" %} {% from "wiki/_macros.html" import render_page_tree %}
+{% set sidebar_state = "visible" %} {% from "wiki/_macros.html" import
+floating_button %} {% block content %} {{ floating_button(page.slug) }}
+<button id="sidebar-toggle" aria-label="Toggle Sidebar">☰</button>
+{% block page %}
+<div id="welcome">
+  <h2>Welcome to the DnD Wiki!</h2>
+  <p>
+    This wiki is your collaborative space to build and organize all the lore,
+    characters, sessions, and more for our Dungeons & Dragons adventures.
+  </p>
+
+  <h3>How to Create or Edit a Wiki Page</h3>
+  <p>
+    To create a new page, click the <strong>✏️ pencil icon</strong> at the
+    bottom right corner of the screen. When viewing an existing page, you can
+    also edit it by clicking the same pencil icon.
+  </p>
+
+  <h3>Writing Wiki Pages with Markdown</h3>
+  <p>
+    We use
+    <a
+      href="https://www.markdownguide.org/basic-syntax/"
+      target="_blank"
+      rel="noopener"
+      >Markdown</a
+    >
+    to format your pages — it’s simple and easy to learn! Here are some basics:
+  </p>
+  <h3>Markdown Basics — Write Like a Bard Tells a Tale</h3>
+  <p>
+    Use Markdown to format your pages easily. Here are some examples with DnD
+    flavor:
+  </p>
+
+  <div class="markdown-example">
+    <h4>Headers — Organize your lore</h4>
+    <pre><code># The Forgotten Forest</code></pre>
+    <div class="rendered">
+      <h1>The Forgotten Forest</h1>
+    </div>
+  </div>
+
+  <div class="markdown-example">
+    <h4>Bold and Italics — Emphasize your epic moments</h4>
+    <pre><code>**Dragon's Breath** and *Elven Grace*</code></pre>
+    <div class="rendered">
+      <p><strong>Dragon's Breath</strong> and <em>Elven Grace</em></p>
+    </div>
+  </div>
+
+  <div class="markdown-example">
+    <h4>Lists — Track your party</h4>
+    <pre><code>
+- Alice the Ranger
+- Bob the Wizard
+- Cara the Cleric
+    </code></pre>
+    <div class="rendered">
+      <ul>
+        <li>Alice the Ranger</li>
+        <li>Bob the Wizard</li>
+        <li>Cara the Cleric</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="markdown-example">
+    <h4>Custom Wiki Links — Link to characters and places</h4>
+    <pre><code>Meet your brave fighter: [/player/susie]</code></pre>
+    <div class="rendered">
+      <p>
+        Meet your brave fighter:
+        <a href="#" class="link" data-name="Susie" data-model="player">Susie</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="markdown-example">
+    <h4>Styled Text — Add color and style</h4>
+    <pre><code>{Danger}: red, bold</code></pre>
+    <div class="rendered">
+      <p><span style="color: red; font-weight: bold">Danger</span></p>
+    </div>
+  </div>
+
+  <div class="markdown-example">
+    <h4>Images with Size & Alignment — Show your maps and tokens</h4>
+    <pre><code>![A cute cat](cat.jpg):300x200, center</code></pre>
+    <div class="rendered" style="text-align: center">
+      <img
+        src="/media/cat.jpg"
+        alt="Forest Map"
+        style="
+          width: 300px;
+          height: 200px;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+        "
+      />
+    </div>
+  </div>
+
+  <h3>Custom Wiki Syntax</h3>
+  <p>
+    To make your pages more interactive, we have some special Markdown
+    expansions:
+  </p>
+
+  <p>
+    The editor saves 3 seconds after your last edit, and when you save your
+    page, the system automatically converts your Markdown with these expansions
+    into nicely formatted HTML.
+  </p>
+
+  <p>
+    Happy wiki building! If you have questions, feel free to ask in the
+    community in the comments of the pages.
+  </p>
+</div>
+
+{% endblock %}{% endblock %}
+<!-- Floating button -->
+<a
+  href="{{ url_for('page_editor.edit_page', slug=slug) }}"
+  class="floating-button"
+  title="Edit This Page"
+>
+  <span class="simple-pencil"></span>
+</a>
