@@ -136,7 +136,8 @@
   bottom: 1rem;
   left: 1rem;
   z-index: 9999; /* very high to stay on top */
-
+  width: 2.5rem; /* fixed size */
+  height: 2.5rem;
   background-color: #444;
   color: white;
   border: none;
@@ -154,9 +155,9 @@
   background-color: #666;
 }
 
-/* ---------------- Responsive Positioning ---------------- */
+/*------------------------ Responsive Sidebar -------------------------------*/
 
-/* Tablets (max-width: 768px) */
+/* Tablets and smaller */
 @media (max-width: 768px) {
   #sidebar-toggle {
     position: fixed; /* keep fixed so it stays visible */
@@ -166,24 +167,7 @@
     bottom: auto;
     z-index: 9999;
   }
-}
 
-/* Phones (max-width: 480px) */
-@media (max-width: 480px) {
-  #sidebar-toggle {
-    position: fixed;
-    top: 0.8rem;
-    left: 0.8rem;
-    bottom: auto;
-    right: auto;
-    z-index: 9999;
-  }
-}
-
-/*------------------------ Responsive Sidebar -------------------------------*/
-
-/* Tablets and smaller */
-@media (max-width: 768px) {
   #layout {
     flex-direction: column;
   }
@@ -215,6 +199,15 @@
 
 /* Phones */
 @media (max-width: 480px) {
+  #sidebar-toggle {
+    position: fixed;
+    top: 0.8rem;
+    left: 0.8rem;
+    left: auto;
+    bottom: auto;
+    z-index: 9999;
+  }
+
   #layout {
     flex-direction: column;
   }
@@ -225,20 +218,21 @@
   }
 
   /* Show sidebar when active */
-  #sidebar.active {
+  #sidebar.collapsed {
     display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 80%;
-    height: 100vh;
     background-color: var(--bg-lighter);
     z-index: 4000;
     padding: 1rem;
-    overflow-y: auto;
     box-sizing: border-box;
     border-right: 1px solid var(--border-color);
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid var(--border-color);
+    overflow: visible;
+    box-sizing: border-box;
   }
 
   /* Adjust content padding */

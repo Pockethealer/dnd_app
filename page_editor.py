@@ -100,7 +100,7 @@ def expand_images(md_text):
 
     def repl(match):
         alt_text = match.group(1)
-        url = match.group(2)
+        url = '/media/'+match.group(2)
         width = match.group(3)
         height = match.group(4)
         align = match.group(5)

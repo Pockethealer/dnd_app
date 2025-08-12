@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   /*--------------------------------------tooltips--------------------------------------------------*/
   //Tooltip
-  let activeTarget = null;
 
   const tooltipContainer = getTooltipContainer();
   if (window.matchMedia("(hover: hover)").matches) {
@@ -97,13 +96,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   } else {
     /* ---------------- MOBILE (touch tap) ---------------- */
+    let activeTarget = null;
     document.body.addEventListener(
       "click",
       async (e) => {
         const target = e.target.closest("a[data-model][data-name]");
         const insideTooltip = tooltipContainer.contains(e.target);
-        if (e.target.closest(".navbar-toggle")) return;
-        // Tap on a link with tooltip
+
         if (target) {
           e.preventDefault();
           if (activeTarget === target) {
@@ -111,11 +110,11 @@ document.addEventListener("DOMContentLoaded", () => {
             activeTarget = null;
           } else {
             await showTooltip(target.dataset.model, target.dataset.name, e);
+            activeTarget = target; // <---- This was missing
           }
           return;
         }
 
-        // Tap outside closes tooltip
         if (!insideTooltip) {
           tooltipContainer.style.display = "none";
           activeTarget = null;
