@@ -128,7 +128,7 @@ def get_entry(model_name, entry_id):
     data = {
         col.name: getattr(entry, col.name)
         for col in inspect(model).columns
-        if col.name not in ('id', 'created_at', 'updated_at')
+        if col.name not in ('id', 'created_at', 'updated_at', 'password')
     }
 
     for rel in mapper.relationships:
@@ -173,7 +173,7 @@ def get_entry_by_name(model_name, name):
     data = {
         col.name: getattr(entry, col.name)
         for col in columns.values()
-        if col.name not in ('id', 'created_at', 'updated_at')
+        if col.name not in ('id', 'created_at', 'updated_at','password')
     }
     for rel in mapper.relationships:
         value = getattr(entry, rel.key)
