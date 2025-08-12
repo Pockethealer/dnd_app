@@ -526,9 +526,7 @@ textarea:focus {
     font-size: 0.95rem;
   }
 
-  .btn-danger,
   .reply-form button {
-    padding: 4px 8px;
     font-size: 0.8rem;
   }
 
