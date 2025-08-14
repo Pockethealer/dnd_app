@@ -203,7 +203,7 @@
     position: fixed;
     top: 0.8rem;
     left: 0.8rem;
-    left: auto;
+    right: auto;
     bottom: auto;
     z-index: 9999;
   }
@@ -214,25 +214,25 @@
 
   /* Hide sidebar by default on phones */
   #sidebar {
-    display: none;
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    overflow: visible;
+    padding: 1rem;
+    box-sizing: border-box;
   }
 
   /* Show sidebar when active */
   #sidebar.collapsed {
-    display: block;
-    background-color: var(--bg-lighter);
-    z-index: 4000;
-    padding: 1rem;
-    box-sizing: border-box;
-    border-right: 1px solid var(--border-color);
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
-
-    position: relative;
-    width: 100%;
-    height: auto;
-    border-bottom: 1px solid var(--border-color);
-    overflow: visible;
-    box-sizing: border-box;
+    display: none;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border-bottom: none;
+    transition: height 0.3s ease, padding 0.3s ease;
   }
 
   /* Adjust content padding */

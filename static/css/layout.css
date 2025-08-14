@@ -223,7 +223,8 @@ label {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="general"] {
   padding: 0.75rem;
   border: 1px solid #444;
   border-radius: 8px;
@@ -498,43 +499,6 @@ input:focus {
     line-height: 1.4;
   }
 
-  /* Navbar */
-  .navbar {
-    flex-wrap: wrap;
-    padding: 0.6rem 0.8rem;
-  }
-  .navbar-left,
-  .navbar-right {
-    gap: 0.5rem;
-  }
-  .navbar a {
-    padding: 6px 8px;
-    font-size: 0.95rem;
-  }
-
-  /* Sidebar stacked above content */
-  #layout {
-    flex-direction: column;
-  }
-  #sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    overflow: visible;
-  }
-  #content {
-    padding: 1rem;
-  }
-  #sidebar-toggle {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    left: auto;
-    bottom: auto;
-  }
-
   /* Editor layout stacked */
   .editor-container {
     flex-direction: column;
@@ -567,48 +531,6 @@ input:focus {
 @media (max-width: 480px) {
   body {
     font-size: 0.9rem;
-  }
-
-  /* Navbar vertical */
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    border-radius: 0;
-  }
-  .navbar-left,
-  .navbar-right {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    gap: 0.4rem;
-  }
-  .navbar a {
-    display: block;
-    width: 100%;
-    padding: 8px 0;
-  }
-
-  /* Sidebar hidden by default */
-  #sidebar {
-    display: none;
-  }
-  #sidebar.active {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 80%;
-    height: 100%;
-    background-color: var(--bg-lighter);
-    z-index: 3000;
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  #sidebar-toggle {
-    position: fixed;
-    top: 0.8rem;
-    left: 0.8rem;
-    z-index: 4000;
   }
 
   /* Hero text scaling */
@@ -681,5 +603,93 @@ ul {
 
   .markdown-example pre {
     font-size: 0.85rem;
+  }
+}
+
+/*------------------------------------user settings---------------------------------------------*/
+
+/* User Panel Styles */
+.panel {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--bg-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.profile-image {
+  display: block;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 1.5rem auto;
+  border: 2px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+td:first-child {
+  font-weight: 600;
+  color: var(--text-color);
+  width: 35%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+label {
+  margin: 0.5rem 0 0.2rem 0;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .panel {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  td:first-child {
+    width: 40%;
+    font-size: 0.95rem;
+  }
+
+  td:last-child {
+    font-size: 0.95rem;
+  }
+
+  input[type="password"],
+  input[type="text"],
+  input[type="general"] {
+    font-size: 0.95rem;
+  }
+
+  button.btn {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
   }
 }

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from .models import Page, Session, Comment
 from datetime import datetime
 from . import db
@@ -79,3 +80,39 @@ def delete_comment(comment_id):
 
     # Redirect back to the page the comment belonged to
     return redirect(url_for('views.view_page', slug=slug))
+
+
+
+@views.route('/user-settings', methods=['GET'])
+@login_required
+def user_settings():
+    return render_template('user_settings.html',user=current_user)
+
+@views.route('/change-password', methods=['POST'])
+@login_required
+def change_password():
+    current = request.form['current_password']
+    new = request.form['new_password']
+    confirm = request.form['confirm_password']
+    if not current or not new or not confirm:
+        flash(message="Please fill all fields.", category='error')
+    elif not check_password_hash(current_user.password,current):
+        flash(message="Current password is incorrect.", category='error')
+    elif new != confirm:
+        flash(message="New passwords do not match.", category='error')
+    else:
+        current_user.password= generate_password_hash(new)
+        db.session.commit()
+        flash(message="Password updated successfully!", category='success')
+    return redirect(url_for('views.user_settings'))
+
+@views.route('/change-profile-pic', methods=['POST'])
+@login_required
+def change_profile_pic():
+    new = request.form['new_image']
+    current_user.image=new
+    db.session.commit()
+    return redirect(url_for('views.user_settings'))
+
+    
+

@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from sqlalchemy.inspection import inspect
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import Integer, Text, Boolean, Float, DateTime, Enum, func, Date, DateTime
-from .models import MODELS
+from .models import MODELS, Rarity
 from . import db
 from datetime import datetime
 from .page_editor import markdown_to_html, slugify
@@ -12,12 +12,12 @@ import json
 
 
 manage_entries = Blueprint('manage_entries', __name__)
-
+excluded_fields=['id', 'created_at', 'updated_at', 'password', 'comments', 'children', 'pity', 'small_pity', 'tokens', 'slug', 'is_admin']
 
 @manage_entries.route('/manage-entry', methods=['GET'])
 @login_required
 def create_entry_page():
-    return render_template('manage_entry.html', user=current_user)
+    return render_template('manage_entry.html', user=current_user, models=MODELS)
 
 
 def extract_model_fields(model_class):
@@ -25,7 +25,7 @@ def extract_model_fields(model_class):
     fields = []
 
     for column in mapper.columns:
-        if column.name in ('id', 'created_at', 'updated_at'):
+        if column.name in excluded_fields:
             continue
 
         col_type = column.type
@@ -83,7 +83,7 @@ def extract_entry_values(model_instance):
     fields = []
 
     for column in mapper.columns:
-        if column.name in ('id', 'created_at', 'updated_at'):
+        if column.name in excluded_fields:
             continue
 
         value = getattr(model_instance, column.name)
@@ -124,12 +124,19 @@ def get_entry(model_name, entry_id):
 
     entry = model.query.get_or_404(entry_id)
     mapper = inspect(model)
+    data = {}
 
-    data = {
-        col.name: getattr(entry, col.name)
-        for col in inspect(model).columns
-        if col.name not in ('id', 'created_at', 'updated_at', 'password')
-    }
+    for col in mapper.columns:
+        if col.name in excluded_fields:
+            continue
+        
+        value = getattr(entry, col.name)
+    
+        # If the column is an Enum, return the name instead of the raw value
+        if hasattr(col.type, 'enum_class') and value is not None:
+            value = value.name  # This will be "common", "uncommon", "rare", etc.
+    
+        data[col.name] = value
 
     for rel in mapper.relationships:
         value = getattr(entry, rel.key)
@@ -170,11 +177,19 @@ def get_entry_by_name(model_name, name):
     if not entry:
         return jsonify({"error": "Not found"}), 404
 
-    data = {
-        col.name: getattr(entry, col.name)
-        for col in columns.values()
-        if col.name not in ('id', 'created_at', 'updated_at','password')
-    }
+    data = {}
+
+    for col in mapper.columns:
+        if col.name in excluded_fields:
+            continue
+        
+        value = getattr(entry, col.name)
+    
+        # If the column is an Enum, return the name instead of the raw value
+        if hasattr(col.type, 'enum_class') and value is not None:
+            value = value.name  # This will be "common", "uncommon", "rare", etc.
+    
+        data[col.name] = value
     for rel in mapper.relationships:
         value = getattr(entry, rel.key)
 
@@ -197,13 +212,13 @@ def submit_page():
         data["parent_id"] = None
     page_type = data.get('page_type')
     model_class = MODELS.get(page_type)
-
+    if(model_class=='User'): return
     if not model_class:
         return jsonify({'error': 'Invalid page type'}), 400
 
     mapper = inspect(model_class)
     relationships = {rel.key: rel for rel in mapper.relationships}
-    allowed_fields = [col.name for col in mapper.columns if col.name not in ('id', 'created_at', 'updated_at')]
+    allowed_fields = [col.name for col in mapper.columns if col.name not in excluded_fields]
     columns = {col.key: col for col in mapper.columns}
 
     rel_data = {}
@@ -219,7 +234,7 @@ def submit_page():
                     value = datetime.fromisoformat(value)
                 except ValueError:
                     return redirect(url_for('create_pages.create_page'))
-
+            
             clean_data[key] = value
 
         elif key in relationships:
@@ -316,6 +331,7 @@ def submit_page():
 @login_required
 def edit_entry(model_name, entry_id):
     model = MODELS.get(model_name.lower())
+    if(model=='User'): return
     if not model:
         return jsonify({'error': 'Invalid model'}), 400
 
@@ -390,6 +406,7 @@ def edit_entry(model_name, entry_id):
 @manage_entries.route('/delete-entry/<model>/<int:entry_id>', methods=['DELETE'])
 @login_required
 def delete_entry(model, entry_id):
+    if(model=='user'): return
     model_class = MODELS.get(model)
     if not model_class:
         return jsonify({'error': 'Invalid model type'}), 400

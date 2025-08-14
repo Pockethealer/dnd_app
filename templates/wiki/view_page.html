@@ -1,7 +1,6 @@
 {% extends "wiki/index.html" %} {% block title %}{{ page.title }}{% endblock %}
 {% from "wiki/_macros.html" import render_page_tree, floating_button,
 render_comment %} {% block page %}
-<h1>{{ page.title }}</h1>
 <div>{{ page.content | safe }}</div>
 
 <hr />

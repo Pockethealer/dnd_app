@@ -1,10 +1,17 @@
 from . import db
 from flask_login import UserMixin
-from sqlalchemy import func, event
+from sqlalchemy import func, event, Enum
 from slugify import slugify
 from sqlalchemy.orm import backref
 from datetime import datetime
+import enum
 
+class Rarity(enum.IntEnum):
+    common = 1
+    uncommon = 2
+    rare = 3
+    epic = 4
+    legendary = 5
 
 player_sessions = db.Table(
     'player_sessions',
@@ -106,6 +113,12 @@ class User(db.Model, UserMixin):
     is_admin= db.Column(db.Boolean, default=False)
     image = db.Column(db.String(255), nullable=True)
     characters = db.relationship('PlayerCharacter', backref='player', lazy=True)
+    tokens= db.Column(db.Integer, default=0)
+    pity= db.Column(db.Integer, default=0)
+    small_pity= db.Column(db.Integer, default=0)
+
+
+
     def __str__(self):
         return self.name
 
@@ -384,6 +397,16 @@ class Sequence(db.Model):
     def __str__(self):
         return self.title
     
+class Gatcha(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    slug = db.Column(db.String(200), nullable=False, unique=True)
+    rarity = db.Column(Enum(Rarity), nullable=False, default=Rarity.common)
+    description = db.Column(db.String(200), default="No description.")
+    def __str__(self):
+        return self.name
+
+
 
 #---------------------------Slugs-------------------------------------
 # Single source of truth for model name mapping
@@ -399,7 +422,8 @@ MODELS = {
     'monster': Monster,
     'session': Session,
     'user': User,
-    'comment':Comment
+    'comment':Comment,
+    'gatcha':Gatcha
 }
 def generate_slug(__mapper, __connection, target):
     # Only proceed if the model has a 'slug' attribute

@@ -1,0 +1,97 @@
+{%extends "base.html"%} {%block title%}User Settings{%endblock%} {% block
+content %}
+<div class="panel">
+  <h1>User Panel: {{ user.name }}</h1>
+
+  {% if user.image %}
+  <img
+    src="{{ url_for('static', filename='media/' ~ user.image) }}"
+    alt="Profile Image"
+    class="profile-image"
+  />
+  {% endif %}
+
+  <!-- User Info -->
+  <h2>Account Info</h2>
+  <table>
+    <tbody>
+      <tr>
+        <td>Name</td>
+        <td>{{ user.name }}</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>{{ user.email }}</td>
+      </tr>
+      <tr>
+        <td>Admin</td>
+        <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- User Stats -->
+  <h2>Stats</h2>
+  <table>
+    <tbody>
+      <tr>
+        <td>Tokens</td>
+        <td>{{ user.tokens }}</td>
+      </tr>
+      <tr>
+        <td>Pity</td>
+        <td>{{ user.pity }}</td>
+      </tr>
+      <tr>
+        <td>Small Pity</td>
+        <td>{{ user.small_pity }}</td>
+      </tr>
+      <tr>
+        <td>Characters</td>
+        <td>{{ user.characters|length }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- image Change Form -->
+  <h2>Change Profile Picture</h2>
+  <form
+    method="POST"
+    action="{{ url_for('views.change_profile_pic') }}"
+    ,
+    class="update-image-form"
+  >
+    <label for="current_password">New image name</label>
+    <input id="new_image" name="new_image" type="general" required />
+    <button class="btn btn-success">Update</button>
+  </form>
+  <!-- Password Change Form -->
+  <h2>Change Password</h2>
+  <form
+    method="POST"
+    action="{{ url_for('views.change_password') }}"
+    ,
+    class="update-password-form"
+  >
+    <label for="current_password">Current Password</label>
+    <input
+      type="password"
+      id="current_password"
+      name="current_password"
+      required
+    />
+
+    <label for="new_password">New Password</label>
+    <input type="password" id="new_password" name="new_password" required />
+
+    <label for="confirm_password">Confirm New Password</label>
+    <input
+      type="password"
+      id="confirm_password"
+      name="confirm_password"
+      required
+    />
+
+    <button class="btn btn-success">Update</button>
+  </form>
+</div>
+{% endblock %}

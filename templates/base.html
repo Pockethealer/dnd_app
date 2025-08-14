@@ -47,6 +47,7 @@
         {% if user.is_authenticated %} {% if user.is_admin %}
         <a id="admin" href="/admin">Admin settings</a>
         {%endif%}
+        <a id="settings" href="/user-settings">Settings</a>
         <a id="logout" href="/logout">Logout</a>
         {%else%}
         <a id="login" href="/login">Login</a>
@@ -90,11 +91,17 @@
       </main>
     </div>
 
-    
+    <footer id="footer">
+    <div class="footer-content">
+      <span class="footer-name">Tolder Inc.</span>
+      <span class="footer-patch">Patch: 1.0.1</span>
+    </div>
+    </footer>
 
     <script
       type="module"
       src="{{ url_for('static', filename='js/main.js') }}"
     ></script>
+    
   </body>
 </html>

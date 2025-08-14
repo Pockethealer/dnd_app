@@ -7,16 +7,9 @@ block content %}
       <label for="pageType" class="form-label fw-bold">Select Entry Type</label>
       <select id="pageType" class="form-select">
         <option value="" disabled selected>Choose entry type...</option>
-        <option value="player">Player</option>
-        <option value="page">Page</option>
-        <option value="quest">Quests</option>
-        <option value="npc">NPC</option>
-        <option value="item">Item</option>
-        <option value="spell">Spell</option>
-        <option value="monster">Monster</option>
-        <option value="session">Session</option>
-        <option value="pathway">Pathway</option>
-        <option value="sequence">Pathway Sequence</option>
+        {% for key, value in models.items() %} {% if key != "user" %}
+        <option value="{{ key }}">{{ value.__name__ }}</option>
+        {% endif %} {% endfor %}
       </select>
     </div>
 
