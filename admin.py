@@ -27,3 +27,37 @@ def delete_user(user_id):
     db.session.commit()
     flash("User deleted.", "success")
     return redirect(url_for('admin.admin_dashboard'))
+
+
+@admin.route("/admin/add-votes/<int:user_id>/<count>", methods=["POST"])
+@login_required
+@admin_required
+def add_votes(user_id, count):
+    count = int(count)
+    if not current_user.is_admin:
+        flash("You are not authorized to perform this action.", "danger")
+        return redirect(url_for("views.home"))
+    user = User.query.get_or_404(user_id)
+    user.votes_remaining = (user.votes_remaining or 0) + count
+    if(user.votes_remaining<0):
+        user.votes_remaining=0
+    db.session.commit()
+
+    flash(f"Added {count} votes to {user.name}.", "success")
+    return redirect(url_for("admin.admin_dashboard"))
+
+@admin.route("/admin/add_tokens/<int:user_id>/<count>", methods=["POST"])
+@login_required
+def add_tokens(user_id, count):
+    count = int(count)
+    if not current_user.is_admin:
+        flash("You are not authorized to perform this action.", "danger")
+        return redirect(url_for("index"))
+    user = User.query.get_or_404(user_id)
+    user.tokens = (user.tokens or 0) + count
+    if(user.tokens<0):
+        user.tokens=0
+    db.session.commit()
+
+    flash(f"Added {count} tokens to {user.name}.", "success")
+    return redirect(url_for("admin.admin_dashboard"))

@@ -316,6 +316,68 @@ textarea:focus {
 .entry-card:hover {
   background-color: var(--bg-highlight, #333);
 }
+
+/* ---------------- COMPONENTS RESPONSIVENESS ---------------- */
+
+/* Tablets and smaller (≤768px) */
+@media (max-width: 768px) {
+  /* Limit to entry management page */
+  .entry-container button,
+  .entry-container .btn {
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
+    width: 100%;
+  }
+
+  /* Make container stack vertically */
+  .entry-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%; /* Full width */
+    width: 100%; /* Ensure it fills parent */
+    margin: 0 auto; /* Center if parent has larger width */
+    align-items: stretch; /* Children take full row */
+    justify-content: flex-start;
+  }
+
+  /* Forms & lists take full width */
+  .entry-container .entry-form,
+  .entry-container .entry-list {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Adjust card grid */
+  .entry-container .entry-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+/* Phones (≤480px) */
+@media (max-width: 480px) {
+  .entry-container {
+    max-width: 100%; /* Full width on phones */
+    margin: 0 auto;
+  }
+
+  .entry-container button,
+  .entry-container .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .entry-container .entry-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tooltip max width adjust */
+  #tooltip-container {
+    max-width: 90vw;
+    font-size: 0.85rem;
+    padding: 10px 12px;
+  }
+}
+
 /*--------------------------------TOOLTIP-----------------------------------------*/
 #tooltip-container {
   /* Base tooltip styles */
@@ -347,70 +409,6 @@ textarea:focus {
   font-weight: 600;
 }
 /*-------------------------------------------------------------------------*/
-/* ---------------- COMPONENTS RESPONSIVENESS ---------------- */
-
-/* Tablets and smaller (≤768px) */
-@media (max-width: 768px) {
-  /* Buttons full-width for touch ease */
-  button,
-  .btn {
-    font-size: 0.95rem;
-    padding: 0.6rem 1rem;
-  }
-
-  /* Row stacking */
-  .row {
-    flex-direction: column;
-    gap: 15px;
-  }
-  .row > .col {
-    flex: 1 1 100%;
-  }
-
-  /* Entry cards stack */
-  .entry-container {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  .entry-form,
-  .entry-list {
-    max-width: 100%;
-  }
-  .entry-list {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  }
-}
-
-/* Phones (≤480px) */
-@media (max-width: 480px) {
-  /* Buttons span container */
-  button,
-  .btn {
-    width: 100%;
-    margin-right: 0;
-  }
-
-  /* Flash message scaling */
-  .flash-message {
-    font-size: 0.9rem;
-    padding: 0.8rem 1rem;
-    min-width: unset;
-    width: 100%;
-    border-radius: 6px;
-  }
-
-  /* Entry list single column if needed */
-  .entry-list {
-    grid-template-columns: 1fr;
-  }
-
-  /* Tooltip max width adjust */
-  #tooltip-container {
-    max-width: 90vw;
-    font-size: 0.85rem;
-    padding: 10px 12px;
-  }
-}
 /*-----------------------------------comments-----------------------------------------*/
 .comments {
   max-width: auto;

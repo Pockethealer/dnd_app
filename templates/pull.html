@@ -1,0 +1,29 @@
+{%extends "base.html"%} {%block title%}Let's pull{%endblock%} {% block content
+%}
+
+<h1>D&D Gatcha</h1>
+<div class="pull-page">
+  <div class="pull-counters">
+    <div class="tokens">Tokens: {{ user.tokens }}</div>
+    <div class="pity">Pity: {{ user.pity }}</div>
+    <div class="small_pity">Small pity: {{ user.small_pity }}</div>
+  </div>
+  <div class="pull-buttons">
+    <!-- prettier-ignore -->
+    <button id="pull-btn-1" class="btn-pull" type="submit" {% if user.tokens <= 0 %}disabled{% endif %}>Pull</button>
+    <!-- prettier-ignore -->
+    <button id="pull-btn-10" class="btn-pull" type="submit" {% if user.tokens <= 9 %}disabled{% endif %}>Pull 10</button>
+  </div>
+  <div class="pull-history">
+    <h2>Pull History</h2>
+    <div class="pull-history-list" id="pull-history-list">
+      <!-- Js comes here: -->
+    </div>
+  </div>
+</div>
+
+<div class="pulled-item" style="display: none"></div>
+<button id="skip-button" style="display: none">Skip</button>
+<button id="skip-all-button" style="display: none">Skip All</button>
+
+{% endblock %}

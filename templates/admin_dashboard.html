@@ -2,10 +2,10 @@
 content %}
 
 <body class="bg-light">
-  <div class="container mt-5">
-    <h2>👑 Admin Dashboard</h2>
+  <div class="container">
+    <h2>Admin Dashboard</h2>
 
-    <table class="table table-bordered table-hover mt-4 bg-white">
+    <table class="table table-bordered table-admin">
       <thead class="table-light">
         <tr>
           <th>ID</th>
@@ -20,7 +20,15 @@ content %}
         <tr>
           <td>{{ user.id }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.first_name }}</td>
+          <td>
+            <a
+              href="#"
+              class="link"
+              data-name="{{ user.name }}"
+              data-model="user"
+              >{{ user.name }}</a
+            >
+          </td>
           <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
           <td>
             {% if not user.is_admin %}
@@ -35,6 +43,56 @@ content %}
             {% else %}
             <span class="text-muted">Admin</span>
             {% endif %}
+          </td>
+          <td>
+            <form
+              action="{{ url_for('admin.add_votes', user_id=user.id, count=3) }}"
+              method="POST"
+              style="display: inline"
+              onsubmit="return confirm('Add votes?');"
+            >
+              <button class="btn btn-success">Add votes</button>
+            </form>
+          </td>
+          <td>
+            <form
+              action="{{ url_for('admin.add_votes', user_id=user.id, count=-3) }}"
+              method="POST"
+              style="display: inline"
+              onsubmit="return confirm('Remove votes?');"
+            >
+              <button class="btn btn-sm btn-danger">Remove 3 votes</button>
+            </form>
+          </td>
+          <td>
+            <form
+              action="{{ url_for('admin.add_tokens', user_id=user.id, count=1) }}"
+              method="POST"
+              style="display: inline"
+              onsubmit="return confirm('Add token?');"
+            >
+              <button class="btn btn-success">Add one token</button>
+            </form>
+          </td>
+          <td>
+            <form
+              action="{{ url_for('admin.add_tokens', user_id=user.id, count=10) }}"
+              method="POST"
+              style="display: inline"
+              onsubmit="return confirm('Add tokens?');"
+            >
+              <button class="btn btn-success">Add 10 tokens</button>
+            </form>
+          </td>
+          <td>
+            <form
+              action="{{ url_for('admin.add_tokens', user_id=user.id, count=-100) }}"
+              method="POST"
+              style="display: inline"
+              onsubmit="return confirm('Remove tokens?');"
+            >
+              <button class="btn btn-sm btn-danger">Remove 100 tokens</button>
+            </form>
           </td>
         </tr>
         {% endfor %}

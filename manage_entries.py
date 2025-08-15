@@ -12,7 +12,7 @@ import json
 
 
 manage_entries = Blueprint('manage_entries', __name__)
-excluded_fields=['id', 'created_at', 'updated_at', 'password', 'comments', 'children', 'pity', 'small_pity', 'tokens', 'slug', 'is_admin']
+excluded_fields=['id', 'created_at', 'updated_at', 'password', 'comments', 'children', 'pity', 'small_pity', 'slug', 'is_admin', 'vote_count']
 
 @manage_entries.route('/manage-entry', methods=['GET'])
 @login_required
@@ -66,7 +66,8 @@ def extract_model_fields(model_class):
         # Skip backrefs already represented by foreign key columns
         if not rel.uselist and rel.direction.name == "MANYTOONE":
             continue
-
+        if rel.key == "pulls":  # skip this relationship
+            continue
         related_model = rel.mapper.class_
         field = {
             'name': rel.key,
@@ -139,6 +140,8 @@ def get_entry(model_name, entry_id):
         data[col.name] = value
 
     for rel in mapper.relationships:
+        if rel.key == "pulls":  # skip this relationship
+            continue
         value = getattr(entry, rel.key)
 
         if rel.uselist:  # list of related objects
@@ -149,7 +152,6 @@ def get_entry(model_name, entry_id):
             data[rel.key] = {"id": value.id, "name": str(value)} if value else None
     return jsonify(data)
 
-#removed because it is unneceseary but useful for key reorder bug
 @manage_entries.route('/get-entry-by-name/<model_name>/<path:name>')
 @login_required
 def get_entry_by_name(model_name, name):
@@ -191,6 +193,8 @@ def get_entry_by_name(model_name, name):
     
         data[col.name] = value
     for rel in mapper.relationships:
+        if rel.key == "pulls":  # skip this relationship
+            continue
         value = getattr(entry, rel.key)
 
         if rel.uselist:  # list of related objects

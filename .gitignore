@@ -7,5 +7,4 @@ migrations/
 migrate_db*
 media/
 config.py
-__init__.py
 TODO

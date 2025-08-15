@@ -10,8 +10,8 @@ import {
 } from "./components/tooltip.js";
 import { submitPage, debounce, autosavePage } from "./components/pageEditor.js";
 import { deleteEntry } from "./api/modelApi.js";
-import { setupNoneCheckboxLogic } from "./components/formBuilder.js";
 import { gallery } from "./dom/gallery.js";
+import { attachPullButton, loadPullHistory } from "./handlers/handle_pull.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   //entry management
@@ -243,10 +243,19 @@ document.addEventListener("DOMContentLoaded", () => {
       () => {
         navbarLeft.classList.toggle("active");
         navbarRight.classList.toggle("active");
-        console.log("clicked");
       },
       false
     );
+  }
+  /*--------------------------------------pulls--------------------------------------------------*/
+  loadPullHistory();
+  const pullButton = document.getElementById("pull-btn-1");
+  const pullButton10 = document.getElementById("pull-btn-10");
+  if (pullButton) {
+    attachPullButton(pullButton, 1);
+  }
+  if (pullButton10) {
+    attachPullButton(pullButton10, 10);
   }
 });
 /*--------------------------------------Galery--------------------------------------------------*/

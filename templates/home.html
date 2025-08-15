@@ -1,13 +1,12 @@
 {%extends "base.html"%} {%block title%}Home{%endblock%} {% block content %}
 <body>
   <section class="landing-container">
+    <h1>The Fool's Legacy</h1>
+    <p class="tagline">
+      A living world shaped by the choices of brave adventurers.
+    </p>
+    <div class="divider"></div>
     <div class="hero">
-      <h1>The Fool's Legacy</h1>
-      <p class="tagline">
-        A living world shaped by the choices of brave adventurers.
-      </p>
-      <div class="divider"></div>
-
       <div class="next-session">
         <h2>Upcoming Sessions</h2>
         <ul>
@@ -16,6 +15,19 @@
             <h3>
               {{ session.campaign_name }} - Session {{ session.session_no }}
             </h3>
+            <p>
+              <span style="font-size: 180%"><strong>Date:</strong></span>
+              <span
+                style="
+                  color: greenyellow;
+                  font-weight: bold;
+                  font-family: Cormorant Garamond, sherif;
+                  font-size: 200%;
+                "
+                >{{ session.session_date.strftime("%Y %b %d ") if
+                session.session_date else "TBA" }}
+              </span>
+            </p>
             {% if session.image %}
             <div class="session-image-container">
               <img
@@ -25,10 +37,6 @@
               />
             </div>
             {%endif%}
-            <p>
-              <strong>Date:</strong> {{ session.session_date.strftime("%Y %b %d
-              ") if session.session_date else "TBA" }}
-            </p>
             <p><strong>Title:</strong> {{ session.name }}</p>
             <p>
               <strong></strong> {{ session.notes[:150] ~ ('...' if
@@ -53,31 +61,66 @@
           {% endfor %}
         </ul>
       </div>
-
-      <div class="divider"></div>
-
       <div class="session-logs">
         <h2>Past Sessions</h2>
         <ul>
-          {% for session in past_sessions %}
+          {% for sw in session_w %}
           <li class="session-item">
             <h3>
-              {{ session.campaign_name }} - Session {{ session.session_no }}
+              {{ sw.session.campaign_name }} - Session {{ sw.session.session_no
+              }}
             </h3>
             <p>
-              <strong>Date:</strong> {{ session.session_date.strftime("%b %d,
-              %Y") if session.session_date else "Unknown" }}
+              <strong>Date:</strong> {{ sw.session.session_date.strftime("%b %d,
+              %Y") if sw.session.session_date else "Unknown" }}
             </p>
-            <p><strong>Title:</strong> {{ session.name }}</p>
+            <p><strong>Title:</strong> {{ sw.session.name }}</p>
             <p>
-              {{ session.notes[:150] ~ ('...' if session.notes|length > 150 else
-              '') }}
+              {{ sw.session.notes[:150] ~ ('...' if sw.session.notes|length >
+              150 else '') }}
+            </p>
+            <p>
+              The winner of this session's meme contest:
+              <span
+                style="
+                  color: aqua;
+                  font-weight: bold;
+                  font-family: Cormorant Garamond, sherif;
+                  font-size: 200%;
+                "
+                >{{ sw.winner if sw.winner else 'No winner' }}</span
+              >
             </p>
           </li>
           {% else %}
           <li>No past sessions.</li>
           {% endfor %}
         </ul>
+      </div>
+      <div class="meme-contest">
+        <h2>Meme contest</h2>
+        {% if fan_content %}
+        <div class="meme-grid">
+          {% for image in fan_content %}
+          <div class="session-image-container">
+            <img
+              src="{{ url_for('upload.media_file', filename=image.file_path) }}"
+              alt="Image for meme contest"
+              class="contest-image"
+            />
+            <a
+              href="/vote/{{ image.user_id }}/{{ image.id }}"
+              class="vote-button heart"
+              title="Vote for this meme"
+              onclick="return confirm('Are you sure you want to vote for this image? Once you vote you can not unso your action!');"
+            >
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+        {%else%}
+        <p>No memes submitted yet.</p>
+        {% endif %}
       </div>
     </div>
   </section>

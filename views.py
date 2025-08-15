@@ -1,14 +1,14 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import Page, Session, Comment
+from .models import Page, Session, Comment, FanContent, User
 from datetime import datetime
 from . import db
 
 
 views = Blueprint('views', __name__)
 
-SHOWN_SESSIONS=3
+SHOWN_SESSIONS=4
 
 
 
@@ -17,17 +17,50 @@ SHOWN_SESSIONS=3
 def home():
     now = datetime.now()
     # Query upcoming sessions (future or today), sorted ascending by date
-    upcoming_sessions = Session.query.filter(Session.session_date >= now).order_by(Session.session_date.asc()).all()
+    upcoming_sessions = Session.query.filter(Session.session_date >= now).order_by(Session.session_date.asc()).limit(1).all()
     # Query past sessions, sorted descending by date
     past_sessions = Session.query.filter(Session.session_date < now).order_by(Session.session_date.desc()).limit(SHOWN_SESSIONS).all()
-    return render_template('home.html', user=current_user, upcoming_sessions=upcoming_sessions, past_sessions=past_sessions)
+    fan_content_for_previous=None
+    session_with_winners= []
+    winner=None
+    if past_sessions:
+        previous_session = past_sessions[0]
+        fan_content_for_previous = (
+            FanContent.query
+            .filter_by(session_id=previous_session.id)
+            .all()
+        )
+        for session in past_sessions:
+            top_content = FanContent.query.filter(FanContent.session_id == session.id,FanContent.vote_count > 0).order_by(FanContent.vote_count.desc()).first()
+            if top_content:
+                winner = User.query.get(top_content.user_id)
+            else:
+                winner=None
+            session_with_winners.append({"session": session,"winner": winner})
+    return render_template('home.html', user=current_user, upcoming_sessions=upcoming_sessions, session_w=session_with_winners, fan_content=fan_content_for_previous)
 
-@views.route('/character')
+@views.route("/vote/<int:content_user_id>/<int:content_id>", methods=["POST", "GET"])
+@login_required
+def vote(content_user_id, content_id):
+    content = FanContent.query.get_or_404(content_id)
+    if current_user.votes_remaining <= 0:
+        flash(message="You have no votes left!", category="error")
+        return redirect(url_for("views.home"))
+    if content_user_id == current_user.id:
+        flash(message="You cannot vote for your own content!", category="error")
+        return redirect(url_for("views.home"))
+    current_user.votes_remaining -= 1
+    content.vote_count += 1
+    db.session.commit()
+    flash("Your vote has been recorded!", "success")
+    return redirect(url_for("views.home"))
+
+""" @views.route('/character')
 @login_required
 def character():
     
     return render_template('character.html', user=current_user)
-
+ """
 @views.route('/wiki')
 @login_required
 def wiki_index():

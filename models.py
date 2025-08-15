@@ -110,15 +110,14 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     name = db.Column(db.String(150))
+    slug = db.Column(db.String(200), nullable=False, unique=True)
     is_admin= db.Column(db.Boolean, default=False)
     image = db.Column(db.String(255), nullable=True)
     characters = db.relationship('PlayerCharacter', backref='player', lazy=True)
     tokens= db.Column(db.Integer, default=0)
     pity= db.Column(db.Integer, default=0)
     small_pity= db.Column(db.Integer, default=0)
-
-
-
+    votes_remaining = db.Column(db.Integer, default=3)
     def __str__(self):
         return self.name
 
@@ -403,10 +402,33 @@ class Gatcha(db.Model):
     slug = db.Column(db.String(200), nullable=False, unique=True)
     rarity = db.Column(Enum(Rarity), nullable=False, default=Rarity.common)
     description = db.Column(db.String(200), default="No description.")
+    image = db.Column(db.String(255), nullable=True)
     def __str__(self):
         return self.name
 
+class Pulls(db.Model):
+    __tablename__ = 'pulls'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    gatcha_id = db.Column(db.Integer, db.ForeignKey('gatcha.id'), nullable=False)
+    pull_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    # Relationships for easier access
+    user = db.relationship('User', backref=db.backref('pulls', lazy=True))
+    gatcha = db.relationship('Gatcha', backref=db.backref('pulls', lazy=True))
+    def __repr__(self):
+        return f"<PullLog user_id={self.user_id} item_id={self.gatcha_id} pull_time={self.pull_time}>"
 
+class FanContent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.Integer, db.ForeignKey('session.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    title = db.Column(db.String(200))
+    description = db.Column(db.Text)
+    file_path = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    vote_count = db.Column(db.Integer, default=0)
+    def __str__(self):
+        return self.title
 
 #---------------------------Slugs-------------------------------------
 # Single source of truth for model name mapping
@@ -423,7 +445,8 @@ MODELS = {
     'session': Session,
     'user': User,
     'comment':Comment,
-    'gatcha':Gatcha
+    'gatcha':Gatcha,
+    'fancontent':FanContent
 }
 def generate_slug(__mapper, __connection, target):
     # Only proceed if the model has a 'slug' attribute

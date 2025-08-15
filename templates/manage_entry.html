@@ -7,7 +7,8 @@ block content %}
       <label for="pageType" class="form-label fw-bold">Select Entry Type</label>
       <select id="pageType" class="form-select">
         <option value="" disabled selected>Choose entry type...</option>
-        {% for key, value in models.items() %} {% if key != "user" %}
+        {% for key, value in models.items() %} {% if key not in ["user",
+        "comment"] %}
         <option value="{{ key }}">{{ value.__name__ }}</option>
         {% endif %} {% endfor %}
       </select>
