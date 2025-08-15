@@ -73,7 +73,8 @@ def pulling_js(amount=1):
             'name': pulled_item.name,
             'rarity': pulled_item.rarity.name.lower(),
             'image': pulled_item.image,
-            'pulled_at': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+            'pulled_at': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
+            'description': pulled_item.description
         })
     
     current_user.tokens -= amount

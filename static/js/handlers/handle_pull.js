@@ -106,7 +106,8 @@ function showNextItem(
   itemDiv.className = `pulled-item-display ${item.rarity} enlarged`;
   itemDiv.innerHTML = `
         <img src="/media/${item.image}" alt="${item.name}" />
-        <p>${item.name}</p>
+        <p><strong>${item.name}</strong></p>
+        <p>${item.description}</p>
       `;
   foreground.appendChild(itemDiv);
 
@@ -139,7 +140,8 @@ function skipAll(queue, skipButton, skipAllButton, foreground, background) {
     // Enhanced HTML structure for better display
     itemDiv.innerHTML = `
       <img src="/media/${item.image}" alt="${item.name}" />
-      <p>${item.name}</p>
+      <p><strong>${item.name}</strong></p>
+      <p>${item.description}</p>
     `;
 
     // Add entrance animation with staggered delay

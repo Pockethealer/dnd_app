@@ -403,6 +403,9 @@ class Gatcha(db.Model):
     rarity = db.Column(Enum(Rarity), nullable=False, default=Rarity.common)
     description = db.Column(db.String(200), default="No description.")
     image = db.Column(db.String(255), nullable=True)
+    # Add cascade delete for pulls
+    pulls = db.relationship("Pulls", back_populates="gatcha", lazy=True, cascade="all, delete-orphan")
+
     def __str__(self):
         return self.name
 
@@ -414,7 +417,7 @@ class Pulls(db.Model):
     pull_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     # Relationships for easier access
     user = db.relationship('User', backref=db.backref('pulls', lazy=True))
-    gatcha = db.relationship('Gatcha', backref=db.backref('pulls', lazy=True))
+    gatcha = db.relationship('Gatcha', back_populates='pulls')
     def __repr__(self):
         return f"<PullLog user_id={self.user_id} item_id={self.gatcha_id} pull_time={self.pull_time}>"
 
