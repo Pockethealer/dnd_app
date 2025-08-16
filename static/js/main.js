@@ -10,7 +10,7 @@ import {
 } from "./components/tooltip.js";
 import { submitPage, debounce, autosavePage } from "./components/pageEditor.js";
 import { deleteEntry } from "./api/modelApi.js";
-import { gallery } from "./dom/gallery.js";
+/* import { gallery } from "./dom/gallery.js"; */
 import {
   attachPullButton,
   initPullHistory,
@@ -274,10 +274,59 @@ document.addEventListener("DOMContentLoaded", () => {
     attachPullButton(pullButton10, 10);
   }
   initPullHistory();
+
+  /*--------------------------------------Galery--------------------------------------------------*/
+  const modal = document.getElementById("media-modal");
+  const modalContent = document.getElementById("modal-content");
+  const closeBtn = document.querySelector(".modal-close");
+
+  // Open on image/video click
+  document
+    .querySelectorAll(".gallery-item img, .gallery-item video")
+    .forEach((el) => {
+      el.addEventListener("click", () => {
+        modalContent.innerHTML = "";
+
+        if (el.tagName.toLowerCase() === "img") {
+          const img = new Image();
+          img.src = el.src;
+          modalContent.appendChild(img);
+        } else {
+          const src = el.querySelector("source")?.src || el.getAttribute("src");
+          const video = document.createElement("video");
+          video.controls = true;
+          video.src = src;
+          modalContent.appendChild(video);
+        }
+
+        modal.classList.add("is-open");
+      });
+    });
+
+  // Close handlers
+  const closeModal = () => {
+    modal.classList.remove("is-open");
+    modalContent.innerHTML = "";
+  };
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+  /*--------------------------------------upload--------------------------------------------------*/
+  const uploadLabel = document.getElementById("media");
+  if (uploadLabel) {
+    uploadLabel.addEventListener("change", function () {
+      const fileLabel = document.getElementById("file-label");
+      if (this.files && this.files.length > 0) {
+        fileLabel.textContent = this.files[0].name;
+      } else {
+        fileLabel.textContent = "Choose a file";
+      }
+    });
+  }
 });
-/*--------------------------------------Galery--------------------------------------------------*/
-const modal = document.getElementById("modal");
-const modalContent = document.getElementById("modal-content");
-if (modal && modalContent) {
-  gallery(modal, modalContent);
-}

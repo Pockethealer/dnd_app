@@ -12,6 +12,7 @@ content %}
       src="{{ url_for('upload.media_file', filename=file) }}"
       alt="{{ file }}"
     />
+
     {% elif file.endswith('mp4') %}
     <video muted>
       <source
@@ -19,6 +20,7 @@ content %}
         type="video/mp4"
       />
     </video>
+
     {% elif file.endswith('mp3') %}
     <audio controls>
       <source
@@ -26,28 +28,34 @@ content %}
         type="audio/mpeg"
       />
     </audio>
+
     {% elif file.endswith('pdf') %}
     <a
       href="{{ url_for('upload.media_file', filename=file) }}"
       target="_blank"
-      class="pdf-thumbnail-link"
+      class="pdf-link"
     >
       <img
         src="{{ url_for('static', filename='images/pdf-icon.png') }}"
-        alt="{{ file }}"
+        alt="PDF"
         class="pdf-thumbnail"
       />
-      <div class="pdf-filename">{{ file }}</div>
     </a>
+
     {% else %}
-    <a href="{{ url_for('upload.media_file', filename=file) }}">{{ file }}</a>
+    <a href="{{ url_for('upload.media_file', filename=file) }}" target="_blank"
+      >{{ file }}</a
+    >
     {% endif %}
+
+    <div class="image-name">{{ file }}</div>
   </div>
   {% endfor %}
 </div>
 
 <!-- Modal -->
-<div id="modal">
-  <div id="modal-content"></div>
+<div id="media-modal" class="modal">
+  <span class="modal-close">&times;</span>
+  <div class="modal-content" id="modal-content"></div>
 </div>
 {% endblock %}

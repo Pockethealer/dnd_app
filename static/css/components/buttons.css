@@ -8,7 +8,6 @@ button,
   font-size: 14px;
   transition: background-color 0.2s;
   margin-top: 8px;
-  margin-right: 0.5rem;
   background-color: var(--accent);
   color: var(--text-color);
 }

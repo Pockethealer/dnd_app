@@ -1,4 +1,4 @@
-export function gallery(modal, modalContent) {
+/* export function gallery(modal, modalContent) {
   document.querySelectorAll(".gallery-item").forEach((item) => {
     item.addEventListener("click", () => {
       const src = item.dataset.src;
@@ -19,4 +19,4 @@ export function gallery(modal, modalContent) {
     modal.style.display = "none";
     modalContent.innerHTML = "";
   });
-}
+} */

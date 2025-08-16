@@ -38,7 +38,8 @@
 /*---------------------------------- Sidebar -----------------------------------*/
 
 #sidebar {
-  width: 250px; /* fixed width */
+  width: auto; /* fixed width */
+  max-width: 250px;
   background-color: var(--bg-lighter);
   color: var(--text-color);
   font-family: "Segoe UI", sans-serif;
@@ -132,25 +133,24 @@
 /*--------------------------- Sidebar Toggle Button ----------------------------*/
 
 #sidebar-toggle {
-  position: fixed;
-  bottom: 1rem;
-  left: 1rem;
+  position: fixed; /* fix it relative to viewport */
+  bottom: 20px; /* distance from bottom */
+  left: 20px; /* distance from left */
   z-index: 9999; /* very high to stay on top */
   width: 2.5rem; /* fixed size */
   height: 2.5rem;
-  background-color: #444;
-  color: white;
+  background-color: var(--bg-lighter);
+  color: var(--text-color);
   border: none;
   border-radius: 8px;
-  padding: 0.6rem 0.8rem;
+  padding: 6px;
   font-size: 1.2rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: background-color 0.2s ease;
   display: block; /* ensure visible */
   user-select: none;
 }
 
 #sidebar-toggle:hover {
-  background-color: #666;
+  background-color: var(--bg-lighter);
 }
