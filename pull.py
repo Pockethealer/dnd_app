@@ -36,7 +36,10 @@ def get_pulled_item(user, items, pity_threshold=90, small_pity_threshold=10):
 
     pool = [i for i in items if i.rarity == rarity]
 
-    if rarity == Rarity.rare:
+    if rarity==Rarity.epic or rarity==Rarity.legendary:
+        user.pity = 0
+        user.small_pity = 0
+    elif rarity == Rarity.rare:
         user.pity = 0
         user.small_pity = 0
     elif rarity == Rarity.uncommon:

@@ -41,7 +41,7 @@ def upload_file():
             # Save the file
             file.save(file_path)
             flash(message='File successfully uploaded', category='success')
-            return redirect(url_for('upload.browse_media'))
+            return redirect(url_for('upload.upload_file'))
         else:
             flash(message='File type not allowed', category='error')
             return render_template('upload.html', user=current_user)
