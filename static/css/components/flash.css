@@ -1,0 +1,81 @@
+/*-------------------------------
+  Flash Messages
+--------------------------------*/
+.flash-container {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+  z-index: 1100;
+  pointer-events: none; /* allows clicks only on messages */
+}
+
+.flash-message {
+  pointer-events: auto; /* allow clicking the close button */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 300px;
+  margin: 0.5rem auto;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: slideDownFadeIn 0.4s forwards;
+}
+
+/* Status Colors */
+.flash-message.flash-success {
+  background-color: var(--success);
+  border: 1px solid var(--success-light);
+}
+
+.flash-message.flash-error {
+  background-color: var(--danger);
+  border: 1px solid var(--danger-light);
+}
+
+.flash-message.flash-info {
+  background-color: var(--info);
+  border: 1px solid var(--info-light);
+}
+
+.flash-message.flash-warning {
+  background-color: var(--warning);
+  border: 1px solid var(--warning-light);
+  color: #000; /* better contrast for yellow */
+}
+
+/* Close Button */
+.flash-message .close-btn,
+.flash-message .dismiss-button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+  margin-left: 1rem;
+}
+
+/* Animations */
+@keyframes slideDownFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUpFadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}

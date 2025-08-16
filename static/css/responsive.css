@@ -1,0 +1,317 @@
+/* ---------------------------------BASE------------------------------------------ */
+/* For tablets and smaller screens */
+@media (max-width: 768px) {
+  .container {
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  body {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+    border-radius: 8px;
+    max-width: 95vw;
+  }
+
+  body {
+    font-size: 0.9rem;
+  }
+
+  /* Optional: make links easier to tap */
+  .link {
+    font-size: 1rem;
+    padding: 0.2em 0;
+  }
+}
+/* Mobile layout */
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-content span {
+    width: 100%;
+    text-align: center;
+  }
+}
+/* ----------------------------------navbar----------------------------------------- */
+/* Tablets and smaller */
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    display: none;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+
+  /* Keep "show" styles after "hide" styles in same media query */
+  .navbar-left.active,
+  .navbar-right.active {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--bg-lighter);
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 12px 12px;
+    width: 100%;
+  }
+
+  .navbar a {
+    padding: 6px 8px;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.6rem;
+    border-bottom: 12px;
+  }
+
+  .navbar-toggle {
+    display: block;
+    width: 2.5rem; /* fixed size */
+    height: 2.5rem;
+    margin-left: 45%;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    width: 100%;
+  }
+
+  /* Must come AFTER the "display: none" rule in this block */
+  .navbar-left.active,
+  .navbar-right.active {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--bg-lighter);
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 12px 12px;
+    width: 100%;
+  }
+
+  .navbar a {
+    display: block;
+    padding: 8px 0;
+    width: 100%;
+  }
+}
+/* ----------------------------------sidebar----------------------------------------- */
+
+/* Tablets and smaller */
+@media (max-width: 768px) {
+  #sidebar-toggle {
+    position: fixed; /* keep fixed so it stays visible */
+    top: 0.5rem;
+    right: 0.5rem;
+    left: auto;
+    bottom: auto;
+    z-index: 9999;
+  }
+
+  #layout {
+    flex-direction: column;
+  }
+
+  #sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    overflow: visible;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  #content {
+    padding: 1rem;
+  }
+
+  /* When collapsed, hide sidebar height but keep width for sliding if needed */
+  #sidebar.collapsed {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border-bottom: none;
+    transition: height 0.3s ease, padding 0.3s ease;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  #sidebar-toggle {
+    position: fixed;
+    top: 0.8rem;
+    left: 0.8rem;
+    right: auto;
+    bottom: auto;
+    z-index: 9999;
+  }
+
+  #layout {
+    flex-direction: column;
+  }
+
+  #sidebar {
+    display: block;
+    position: relative;
+    margin-top: -8px;
+    width: 100%;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    height: auto;
+    overflow: visible;
+    box-sizing: border-box;
+    padding: 1rem;
+  }
+
+  #sidebar.collapsed {
+    display: none;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    transition: height 0.3s ease, padding 0.3s ease;
+  }
+
+  /* Adjust content padding */
+  #content {
+    padding: 0.8rem;
+  }
+}
+/* -------------------------------flash-------------------------------- */
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  #flash-container {
+    width: 95%;
+  }
+
+  .flash-message {
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+  }
+}
+
+/* Tablets and smaller (≤768px) */
+@media (max-width: 768px) {
+  /* Limit to entry management page */
+  .entry-container button,
+  .entry-container .btn {
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
+    width: 100%;
+  }
+
+  /* Make container stack vertically */
+  .entry-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 100%; /* Full width */
+    width: 100%; /* Ensure it fills parent */
+    margin: 0 auto; /* Center if parent has larger width */
+    align-items: stretch; /* Children take full row */
+    justify-content: flex-start;
+  }
+
+  /* Forms & lists take full width */
+  .entry-container .entry-form,
+  .entry-container .entry-list {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* Adjust card grid */
+  .entry-container .entry-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+/* Phones (≤480px) */
+@media (max-width: 480px) {
+  .entry-container {
+    max-width: 100%; /* Full width on phones */
+    margin: 0 auto;
+  }
+
+  .entry-container button,
+  .entry-container .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .entry-container .entry-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* Tooltip max width adjust */
+  #tooltip-container {
+    max-width: 90vw;
+    font-size: 0.85rem;
+    padding: 10px 12px;
+  }
+}
+/* -------------------------------comments-------------------------------- */
+
+@media (max-width: 600px) {
+  .comments {
+    padding: 1rem;
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  .comment-container {
+    padding-left: 0.7rem;
+    border-left-width: 2px;
+  }
+
+  .comment-header {
+    font-size: 0.85rem;
+  }
+
+  .comment-username {
+    font-size: 1rem;
+  }
+
+  .comment-time {
+    font-size: 0.75rem;
+  }
+
+  .comment-text {
+    font-size: 0.95rem;
+  }
+
+  .reply-form button {
+    font-size: 0.8rem;
+  }
+
+  .reply-form textarea {
+    min-height: 35px;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,62 @@
+/*-------------------------------- Navbar ---------------------------------------*/
+
+/* Navbar container */
+.navbar {
+  background-color: var(--bg-lighter);
+  color: var(--text-color);
+  padding: 0.8rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(4px);
+  flex-wrap: nowrap; /* default no wrap */
+}
+
+/* Navbar sections */
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Navbar links */
+.navbar a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navbar a:hover {
+  background-color: var(--hover-bg);
+  color: #fff;
+}
+
+.navbar a.active {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+/* Navbar toggle button (hamburger) */
+.navbar-toggle {
+  display: none; /* hidden on desktop */
+  font-size: 1.5rem;
+  color: var(--text-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}

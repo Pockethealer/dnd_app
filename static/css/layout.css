@@ -673,7 +673,7 @@ input:focus {
   padding: 12px;
   border-radius: 5px;
   overflow-x: auto;
-  font-family: "Fira Code", monospace, monospace;
+  font-family: "Fira Code", monospace;
 }
 
 .markdown-example .rendered {
@@ -802,7 +802,6 @@ label {
 h2 {
   margin-bottom: 1.5rem;
   font-size: 2rem;
-  display: flex;
   align-items: center;
   gap: 0.5rem;
 }
@@ -1647,6 +1646,42 @@ h2 {
 }
 .pull-history-item.common {
   color: #ddd;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.pagination-controls button {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background: var(--bg-lighter);
+  color: var(--subtle-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-controls button:hover {
+  background: var(--bg-color);
+}
+
+.pagination-controls button:active {
+  background: var(--accent);
+  transform: translateY(1px);
+}
+
+.pagination-controls button:disabled {
+  background: var(--bg-color);
+  color: var(--text-color);
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* 📱 Mobile responsiveness */

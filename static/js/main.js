@@ -11,7 +11,12 @@ import {
 import { submitPage, debounce, autosavePage } from "./components/pageEditor.js";
 import { deleteEntry } from "./api/modelApi.js";
 import { gallery } from "./dom/gallery.js";
-import { attachPullButton, loadPullHistory } from "./handlers/handle_pull.js";
+import {
+  attachPullButton,
+  initPullHistory,
+  loadPullHistory,
+  pullPagination,
+} from "./handlers/handle_pull.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   //entry management
@@ -46,6 +51,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  /*--------------------------------------tooltips--------------------------------------------------*/
+
+  document.querySelectorAll(".flash-container .close-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const msg = btn.parentElement;
+      msg.style.transition = "opacity 0.1s";
+      msg.style.opacity = "0";
+      setTimeout(() => msg.remove(), 100);
+    });
+  });
+
   /*--------------------------------------tooltips--------------------------------------------------*/
   //Tooltip
 
@@ -248,7 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
   /*--------------------------------------pulls--------------------------------------------------*/
-  loadPullHistory();
   const pullButton = document.getElementById("pull-btn-1");
   const pullButton10 = document.getElementById("pull-btn-10");
   if (pullButton) {
@@ -257,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (pullButton10) {
     attachPullButton(pullButton10, 10);
   }
+  initPullHistory();
 });
 /*--------------------------------------Galery--------------------------------------------------*/
 const modal = document.getElementById("modal");

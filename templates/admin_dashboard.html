@@ -76,12 +76,24 @@ content %}
           </td>
           <td>
             <form
-              action="{{ url_for('admin.add_tokens', user_id=user.id, count=10) }}"
               method="POST"
               style="display: inline"
-              onsubmit="return confirm('Add tokens?');"
+              onsubmit="
+                            var c = this.querySelector('input[name=count]').value;
+                            if(!c || c <= 0){ alert('Enter a valid number'); return false; }
+                            this.action='{{ url_for('admin.add_tokens', user_id=user.id, count=0) }}'.replace('/0','/'+c);
+                            return confirm('Add tokens?');
+                        "
             >
-              <button class="btn btn-success">Add 10 tokens</button>
+              <input
+                type="number"
+                name="count"
+                min="1"
+                value="10"
+                style="width: 60px; margin-right: 5px"
+                required
+              />
+              <button class="btn btn-success" type="submit">Add tokens</button>
             </form>
           </td>
           <td>

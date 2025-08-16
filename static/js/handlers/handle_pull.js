@@ -1,10 +1,23 @@
-export async function loadPullHistory(no = 20) {
-  const resp = await fetch(`/pull-history/${no}`, { method: "GET" });
-  const logs = await resp.json();
+let currentPage = 1;
+let allLogs = [];
+let maxPage = 1;
+
+export async function initPullHistory(pageSize = 20) {
+  const resp = await fetch(`/pull-history/2000`, { method: "GET" });
+  allLogs = await resp.json();
+  maxPage = Math.ceil(allLogs.length / pageSize);
+  loadPullHistory();
+  pullPagination();
+}
+
+export async function loadPullHistory(page = 1, no = 20) {
+  const startIndex = (page - 1) * no;
+  const endIndex = page * no;
+  const pageLogs = allLogs.slice(startIndex, endIndex);
   const historyContainer = document.getElementById("pull-history-list");
   if (historyContainer) {
     historyContainer.innerHTML = "";
-    logs.forEach((item) => {
+    pageLogs.forEach((item) => {
       const logDiv = document.createElement("div");
       logDiv.className = `pull-history-item ${item.rarity}`;
       logDiv.innerHTML = `<strong>${item.name}</strong>— ${item.pulled_at}`;
@@ -13,6 +26,42 @@ export async function loadPullHistory(no = 20) {
     });
   }
 }
+export async function pullPagination() {
+  const prevBtn = document.getElementById("prev-page-btn");
+  const nextBtn = document.getElementById("next-page-btn");
+  if (prevBtn || nextBtn) {
+    if (currentPage <= 1) {
+      prevBtn.disabled = true;
+    }
+    if (currentPage >= maxPage) {
+      nextBtn.disabled = true;
+    }
+  }
+  if (prevBtn) {
+    prevBtn.addEventListener("click", async () => {
+      if (currentPage > 1) {
+        currentPage--;
+        await loadPullHistory(currentPage);
+        if (currentPage <= 1) {
+          prevBtn.disabled = true;
+        }
+        nextBtn.disabled = false;
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", async () => {
+      currentPage++;
+      prevBtn.disabled = false;
+      if (currentPage >= maxPage) {
+        nextBtn.disabled = true;
+      }
+      await loadPullHistory(currentPage);
+    });
+  }
+}
+
 export async function attachPullButton(pullButton, count = 1) {
   pullButton.addEventListener("click", async function (e) {
     e.preventDefault();

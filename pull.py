@@ -9,11 +9,11 @@ import random
 pull = Blueprint('pull', __name__)
 
 BASE_RATES = {
-    Rarity.legendary: 0.002,   # 0.2% - extremely rare, game-changing
-    Rarity.epic: 0.015,        # 1.5% - still rare, but pity ensures players see them eventually
-    Rarity.rare: 0.075,        # 7.5% - balanced with 10-pull guarantee
-    Rarity.uncommon: 0.30,     # 30% - plenty of filler pulls
-    Rarity.common: 0.609       # 60.9% - rounds totals to 100%
+    Rarity.legendary: 0.002,   # 0.2% - extremely rare, and without pity
+    Rarity.epic: 0.018,        # 1,8% - still rare, no pity
+    Rarity.rare: 0.02,         # 2% - balanced with 60-pull guarantee
+    Rarity.uncommon: 0.06,     # 6% - plenty of filler pulls
+    Rarity.common: 0.90        # 90% - rounds totals to 100%
 }
 
 def get_pulled_item(user, items, pity_threshold=90, small_pity_threshold=10):
@@ -24,9 +24,9 @@ def get_pulled_item(user, items, pity_threshold=90, small_pity_threshold=10):
         user.small_pity=0
     # Pity
     if user.pity + 1 >= pity_threshold:
-        rarity = Rarity.epic
-    elif user.small_pity + 1 >= small_pity_threshold:
         rarity = Rarity.rare
+    elif user.small_pity + 1 >= small_pity_threshold:
+        rarity = Rarity.uncommon
     else:
         rarity = random.choices(
             population=list(BASE_RATES.keys()),
@@ -36,10 +36,10 @@ def get_pulled_item(user, items, pity_threshold=90, small_pity_threshold=10):
 
     pool = [i for i in items if i.rarity == rarity]
 
-    if rarity == Rarity.epic:
+    if rarity == Rarity.rare:
         user.pity = 0
         user.small_pity = 0
-    elif rarity == Rarity.rare:
+    elif rarity == Rarity.uncommon:
         user.small_pity = 0
     else:
         user.pity += 1
@@ -60,6 +60,9 @@ def pull_page():
 @pull.route('/pull/<int:amount>', methods=['POST'])
 @login_required
 def pulling_js(amount=1):
+    if(current_user.tokens<=0):
+        flash(message="You dont have enough tokens, but nice try!")
+        return None
     items = Gatcha.query.all()
     pulled_items = []
     

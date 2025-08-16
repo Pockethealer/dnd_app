@@ -1,28 +1,69 @@
 :root {
+  /* Base colors */
   --bg-color: #1e1f24;
   --bg-lighter: #2a2b31;
+  --bg-lightest: #3a3b42; /* for cards, panels, sections */
   --text-color: #f0f0f0;
-  --link-color: #4fc3f7; /* electric blue */
-  --link-hover: #82d0f9; /* lighter electric blue */
   --subtle-text: #b3b3b3;
   --border-color: #444;
-  --accent: #5c6ac4;
-  --accent-hover: #3e4ca3;
+
+  /* Links */
+  --link-color: #4fc3f7; /* electric blue */
+  --link-hover: #82d0f9; /* lighter electric blue */
+
+  /* Accent / Primary */
+  --accent: #5c6ac4; /* primary accent */
+  --accent-hover: #3e4ca3; /* darker on hover */
+
+  /* Status colors */
   --success: #28a745;
+  --success-light: #3dd061; /* for backgrounds, alerts */
   --danger: #d9534f;
-  --btn-hover: rgba(255, 255, 255, 0.08);
+  --danger-light: #e46b67;
+  --warning: #f0ad4e;
+  --warning-light: #f5b75c;
+  --info: #17a2b8;
+  --info-light: #3bc2d6;
+
+  --btn-disabled-bg: #555;
+  --btn-disabled-text: #999;
+
+  /* Other UI elements */
+  --input-border: #555;
+  --input-placeholder: #888;
+  --card-border: #333;
+
+  --hover-bg: rgba(
+    255,
+    255,
+    255,
+    0.08
+  ); /* subtle hover for lists, table rows */
+
+  /* Shadows */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+
+  /* Fonts */
+  --font-normal: "Segoe UI", sans-serif;
+  --font-fantasy: "Cormorant Garamond", serif;
+  --font-fancy: "Cinzel Decorative";
+  --font-coding: "Fira Code", monospace;
+
+  /* Font sizes */
+  --fs-small: 0.8rem;
+  --fs-base: 1rem;
+  --fs-large: 1.2rem;
 }
 /*-------------------------------BODY------------------------------------------*/
 body {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-fancy);
   background-color: var(--bg-color);
   color: var(--text-color);
   margin: 0;
   overflow-x: hidden;
   padding: 0;
-  /* display: flex;
-    flex-direction: row;
-    min-height: 100vh; */
+  align-items: center;
+  text-align: center;
 }
 
 .container {
@@ -55,12 +96,6 @@ link:active {
   color: var(--success);
 }
 
-/* Force inheritance if a parent sets color */
-span[style] > .link,
-span[style] > a.link {
-  color: inherit;
-}
-
 a[href="#"] {
   cursor: help;
   color: var(--link-color);
@@ -73,53 +108,15 @@ a[href="#"]:focus {
   text-decoration: underline;
   outline: none;
 }
-/* ---------------- MOBILE RESPONSIVENESS ---------------- */
-
-/* For tablets and smaller screens */
-@media (max-width: 768px) {
-  .container {
-    max-width: 100%;
-    padding: 20px;
-  }
-
-  body {
-    font-size: 0.95rem;
-    line-height: 1.4;
-  }
-}
-
-/* For mobile phones */
-@media (max-width: 480px) {
-  .container {
-    padding: 15px;
-    border-radius: 8px;
-    max-width: 95vw;
-  }
-
-  body {
-    font-size: 0.9rem;
-    max-width: 95vw;
-  }
-
-  /* Optional: make links easier to tap */
-  .link {
-    font-size: 1rem;
-    padding: 0.2em 0;
-  }
-}
-
-/* ---------------- footer style ---------------- */
-
+/* -------------------------------------------- footer style ------------------------------------- */
 /* Footer container */
 #footer {
   font-family: "Cinzel Decorative", serif;
-  color: var(--text-color);
+  color: var(--subtle-text);
   padding-bottom: 20px;
   margin-left: 3vw;
   margin-right: 3vw;
 }
-
-/* Flex layout */
 .footer-content {
   display: flex;
   justify-content: space-between;
@@ -127,37 +124,10 @@ a[href="#"]:focus {
   flex-wrap: wrap;
   gap: 10px;
 }
-
-/* Shared badge style */
 .footer-content span {
   border-radius: 8px;
   font-size: 0.95rem;
 }
-
-/* Brand name */
 .footer-name {
   font-weight: 700;
-  color: var(--subtle-text);
-}
-
-/* Patch version */
-.footer-patch {
-  color: var(--subtle-text);
-}
-
-/* Date */
-.footer-date {
-  color: var(--subtle-text);
-}
-
-/* Mobile layout */
-@media (max-width: 600px) {
-  .footer-content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .footer-content span {
-    width: 100%;
-    text-align: center;
-  }
 }

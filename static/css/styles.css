@@ -1,6 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap");
 @import url("base.css");
+@import url("components/navbar.css");
+@import url("components/sidebar.css");
+@import url("responsive.css");
+@import url("components/buttons.css");
+@import url("components/inputs.css");
+@import url("components/flash.css");
+@import url("components/cards.css");
+@import url("components/tooltip.css");
+@import url("components/comments.css");
+
 @import url("layout.css");
-@import url("components.css");
-@import url("navbar.css");
-@import url("sidebar.css");

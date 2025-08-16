@@ -1,0 +1,35 @@
+/*two sided entrys*/
+.entry-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+.entry-form {
+  flex: 1;
+  max-width: 50%;
+}
+
+.entry-list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.entry-card {
+  background-color: var(--bg-lighter);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.entry-card:hover {
+  background-color: var(--bg-lightest);
+}

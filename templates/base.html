@@ -54,38 +54,37 @@
         {%endif%}
       </div>
     </nav>
-
-    <!-- Flash messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %}
-    <div class="flash-container">
-      {% for category, message in messages %}
-      <div
-        class="flash-message {{ 'flash-success' if category == 'success' else 'flash-error' }}"
-      >
-        {{ message }}
-        <span
-          class="close-btn"
-          aria-label="close"
-          onclick="this.parentElement.style.display='none';"
-          >&times;</span
-        >
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %} {% endwith %}
+    <div id="flash-container" class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+          {% for category, message in messages %}
+            {% set class_map = {
+              'success': 'flash-success',
+              'error': 'flash-error',
+              'info': 'flash-info',
+              'warning': 'flash-warning'
+            } %}
+            <div class="flash-message {{ class_map.get(category, 'flash-error') }}">
+              {{ message }}
+              <span class="close-btn" aria-label="close">&times;</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+        </div>
 
     <!-- Flex container for sidebar + content -->
 
     <div id="layout">
       <aside id="sidebar" class="sidebar {% if sidebar_state != 'visible' %}collapsed{% endif %}"">
         <div id="page-tree">
+          <a class="back-to-wiki", href="/wiki">Main wiki page</a>
           {% for page in pages %} {{ render_page_tree(page) }} {% endfor %}
         </div>
       </aside>
 
       <main id="content">
-        <div id="flash-container"></div>
+        
         <div id="tooltip-container" class="tooltip-container"></div>
         {% block content %}{% endblock %}
       </main>
@@ -95,8 +94,8 @@
     <footer id="footer">
     <div class="footer-content">
       <span class="footer-name">Tolder Inc.</span>
-      <span class="footer-patch">Patch: 1.0.2</span>
-      <span class="footer-date">2025.08.15</span>
+      <span class="footer-patch">Patch: 1.0.3</span>
+      <span class="footer-date">2025.08.16</span>
     </div>
     </footer>
 

@@ -1,0 +1,87 @@
+/*-----------------------------------comments-----------------------------------------*/
+.comments {
+  max-width: auto;
+  margin: 1.5rem auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-lighter);
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.comment-container {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid #444;
+  position: relative;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #bbb;
+  margin-bottom: 0.2rem; /* less space below header */
+}
+
+.comment-username {
+  font-weight: 700;
+  color: #f0a500;
+}
+
+.comment-time {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.comment-text {
+  display: flex;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--text-color);
+  margin-bottom: 0.3rem;
+}
+
+.comment-actions {
+  display: flex;
+  margin-left: auto;
+  gap: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.reply-form {
+  margin-top: 0;
+}
+
+.reply-form textarea {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  resize: vertical;
+  min-height: 40px;
+  padding: 4px 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.reply-form button {
+  margin-top: 4px;
+  background-color: var(--success);
+  border: none;
+  color: var(--text-color);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.reply-form button:hover {
+  background-color: var(--success-light);
+}

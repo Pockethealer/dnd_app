@@ -1,0 +1,76 @@
+button,
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+  margin-top: 8px;
+  margin-right: 0.5rem;
+  background-color: var(--accent);
+  color: var(--text-color);
+}
+
+button:hover,
+.btn:hover {
+  background-color: var(--accent-hover);
+}
+.btn:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(----btn-disabled-bg);
+  color: var(--btn-disabled-text);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: var(--text-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: var(--danger);
+}
+
+.btn-danger:active {
+  background-color: var(--danger-light);
+  transform: scale(0.97);
+}
+
+.btn-danger:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+
+.btn-success {
+  background-color: var(--success);
+  color: var(--text-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-success:hover {
+  background-color: var(--success-light);
+}
+
+.btn-success:active {
+  background-color: var(--success);
+  transform: scale(0.97);
+}
+
+.btn-success:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
