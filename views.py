@@ -8,7 +8,7 @@ from . import db
 
 views = Blueprint('views', __name__)
 
-SHOWN_SESSIONS=4
+SHOWN_SESSIONS=3
 
 
 
@@ -54,6 +54,17 @@ def vote(content_user_id, content_id):
     db.session.commit()
     flash("Your vote has been recorded!", "success")
     return redirect(url_for("views.home"))
+
+@views.route("/browse-sessions")
+@login_required
+def browse_sessions():
+    now=datetime.now()
+    past_sessions = Session.query.filter(Session.session_date < now).order_by(Session.session_date.desc()).all()
+    fan_content_for_all = []
+    for session in past_sessions:
+            top_contents=FanContent.query.filter(FanContent.session_id == session.id,FanContent.vote_count > 0).order_by(FanContent.vote_count.desc()).limit(3).all()
+            fan_content_for_all.append({"session":session, "memes":top_contents})
+    return render_template('sessions.html', user=current_user, sessions=fan_content_for_all)
 
 """ @views.route('/character')
 @login_required

@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block title %}Past sessions{% endblock %} {% block
+content %}
+<div class="past-session-browser">
+    <h2>Past Sessions</h2>
+    <ul>
+        {% for sw in sessions %}
+        <li class="session-browser-item">
+
+            <!-- LEFT SECTION -->
+            <div class="session-left">
+                <h3>
+                    {{ sw.session.campaign_name }} - Session {{ sw.session.session_no }}
+                </h3>
+                <p><strong>Date:</strong> {{ sw.session.session_date.strftime("%b %d, %Y") if sw.session.session_date
+                    else "Unknown" }}</p>
+                <p><strong>Title:</strong> {{ sw.session.name }}</p>
+                {% if sw.session.image %}
+                <div class="session-logo">
+                    <img src="{{ url_for('upload.media_file', filename=sw.session.image) }}"
+                        alt="Image for {{ sw.session.name }}" class="session-browser-image" />
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- MIDDLE SECTION -->
+            <div class="session-middle">
+
+                <p><strong>Description:</strong>
+                    {{ sw.session.description[:150] ~ ('...' if sw.session.description|length > 150 else '') }}
+                </p>
+                <p><strong>The summary of the session:</strong> {{ sw.session.notes }}</p>
+            </div>
+
+            <!-- RIGHT SECTION -->
+            <div class="session-memes">
+                {% if sw.memes %}
+                {% for meme in sw.memes %}
+                <a href="{{ url_for('upload.media_file', filename=meme.file_path) }}"><img
+                        src="{{ url_for('upload.media_file', filename=meme.file_path) }}"
+                        alt="Meme for {{ sw.session.name }}"></a>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+        </li>
+        {% else %}
+        <li>No past sessions.</li>
+        {% endfor %}
+    </ul>
+</div>
+{%endblock%}

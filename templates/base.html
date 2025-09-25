@@ -1,108 +1,106 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
 
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/styles.css') }}"
-    />
-
-    <!-- Basic favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-    <!-- PNG icons for various sizes -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="48x48" href="{{ url_for('static', filename='images/favicon-48x48.png') }}">
-    <!-- Apple Touch Icon for iOS -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
-    <!-- Android/Chrome icon -->
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/android-chrome-192x192.png') }}">
-    <!-- PWA icon -->
-    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='images/android-chrome-512x512.png') }}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-    <title>{% block title %}Home{% endblock %}</title>
-  </head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
 
-  <body>
-    <!-- TODO -->
-    {% from "wiki/_macros.html" import render_page_tree %}
+  <!-- Basic favicon -->
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+  <!-- PNG icons for various sizes -->
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="48x48" href="{{ url_for('static', filename='images/favicon-48x48.png') }}">
+  <!-- Apple Touch Icon for iOS -->
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+  <!-- Android/Chrome icon -->
+  <link rel="icon" type="image/png" sizes="192x192"
+    href="{{ url_for('static', filename='images/android-chrome-192x192.png') }}">
+  <!-- PWA icon -->
+  <link rel="icon" type="image/png" sizes="512x512"
+    href="{{ url_for('static', filename='images/android-chrome-512x512.png') }}">
 
-    <nav class="navbar">
-      <button class="navbar-toggle" aria-label="Toggle navigation">&#9776;</button>
-      {% if user.is_authenticated %}
-      <div class="navbar-left">
-        <a id="home" href="/">Home</a>
-        <a id="createPage" href="/manage-entry">Manage Entries</a>
-        <a id="wiki" href="/wiki">Wiki</a>
-        <a id="pull" href="/pull-page">Let's pull</a>
-        <a id="browse-media" href="/browse">Browse Media</a>
-        <a id="upload" href="/upload">Upload</a>
-      </div>
-      {%endif%}
-      <div class="navbar-right">
-        {% if user.is_authenticated %} {% if user.is_admin %}
-        <a id="admin" href="/admin">Admin settings</a>
-        {%endif%}
-        <a id="settings" href="/user-settings">Settings</a>
-        <a id="logout" href="/logout">Logout</a>
-        {%else%}
-        <a id="login" href="/login">Login</a>
-        {%endif%}
-      </div>
-    </nav>
-    <div id="flash-container" class="flash-container">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-          {% for category, message in messages %}
-            {% set class_map = {
-              'success': 'flash-success',
-              'error': 'flash-error',
-              'info': 'flash-info',
-              'warning': 'flash-warning'
-            } %}
-            <div class="flash-message {{ class_map.get(category, 'flash-error') }}">
-              {{ message }}
-              <span class="close-btn" aria-label="close">&times;</span>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-        </div>
 
-    <!-- Flex container for sidebar + content -->
+  <title>{% block title %}Home{% endblock %}</title>
+</head>
 
-    <div id="layout">
-      <aside id="sidebar" class="sidebar {% if sidebar_state != 'visible' %}collapsed{% endif %}"">
-        <div id="page-tree">
-          <a class="back-to-wiki", href="/wiki">Main wiki page</a>
-          {% for page in pages %} {{ render_page_tree(page) }} {% endfor %}
-        </div>
-      </aside>
+<body>
+  <!-- TODO -->
+  {% from "wiki/_macros.html" import render_page_tree %}
 
-      <main id="content">
-        
-        <div id="tooltip-container" class="tooltip-container"></div>
-        {% block content %}{% endblock %}
-      </main>
+  <nav class="navbar">
+    <button class="navbar-toggle" aria-label="Toggle navigation">&#9776;</button>
+    {% if user.is_authenticated %}
+    <div class="navbar-left">
+      <a id="home" href="/">Home</a>
+      <a id="createPage" href="/manage-entry">Manage Entries</a>
+      <a id="wiki" href="/wiki">Wiki</a>
+      <a id="pull" href="/pull-page">Let's pull</a>
+      <a id="browse-media" href="/browse">Browse Media</a>
+      <a id="upload" href="/upload">Upload</a>
     </div>
-    <div class="divider"></div>
+    {%endif%}
+    <div class="navbar-right">
+      {% if user.is_authenticated %} {% if user.is_admin %}
+      <a id="admin" href="/admin">Admin settings</a>
+      {%endif%}
+      <a id="settings" href="/user-settings">Settings</a>
+      <a id="logout" href="/logout">Logout</a>
+      {%else%}
+      <a id="login" href="/login">Login</a>
+      {%endif%}
+    </div>
+  </nav>
+  <div id="flash-container" class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    {% set class_map = {
+    'success': 'flash-success',
+    'error': 'flash-error',
+    'info': 'flash-info',
+    'warning': 'flash-warning'
+    } %}
+    <div class="flash-message {{ class_map.get(category, 'flash-error') }}">
+      {{ message }}
+      <span class="close-btn" aria-label="close">&times;</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+  </div>
 
-    <footer id="footer">
+  <!-- Flex container for sidebar + content -->
+
+  <div id="layout">
+    <aside id="sidebar" class="sidebar {% if sidebar_state != 'visible' %}collapsed{% endif %}"">
+        <div id=" page-tree">
+      <a class="back-to-wiki" , href="/wiki">Main wiki page</a>
+      {% for page in pages %} {{ render_page_tree(page) }} {% endfor %}
+  </div>
+  </aside>
+
+  <main id="content">
+
+    <div id="tooltip-container" class="tooltip-container"></div>
+    {% block content %}{% endblock %}
+  </main>
+  </div>
+  <div class="divider"></div>
+
+  <footer id="footer">
     <div class="footer-content">
       <span class="footer-name">Tolder Inc.</span>
-      <span class="footer-patch">Patch: 1.0.3</span>
-      <span class="footer-date">2025.08.16</span>
+      <span class="footer-patch">Patch: 1.0.4</span>
+      <span class="footer-date">2025.09.25</span>
     </div>
-    </footer>
+  </footer>
 
-    <script
-      type="module"
-      src="{{ url_for('static', filename='js/main.js') }}"
-    ></script>
-    
-  </body>
+  <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
 </html>

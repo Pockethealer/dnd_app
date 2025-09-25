@@ -46,14 +46,17 @@ def upload_file():
             flash(message='File type not allowed', category='error')
             return render_template('upload.html', user=current_user)
     accept_string = ",".join(f".{ext.lower()}" for ext in ALLOWED_EXTENSIONS)
-    media_files = os.listdir(upload_folder)
+    media_files = sorted(os.listdir(upload_folder))
     return render_template('upload.html', user=current_user, accept_string=accept_string, media_files=media_files)
 
 @upload.route('/browse')
 @login_required
 def browse_media():
     upload_folder = current_app.config['UPLOAD_FOLDER']
-    media_files = os.listdir(upload_folder)
+    media_files = sorted(
+    os.listdir(upload_folder),
+    key=lambda f: os.path.getmtime(os.path.join(upload_folder, f)),
+    reverse=True)
     return render_template('browse_media.html', media_files=media_files,user=current_user)
 
 @upload.route('/media/<filename>')

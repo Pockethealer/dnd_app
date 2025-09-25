@@ -233,6 +233,7 @@ class Session(db.Model):
     session_no = db.Column(db.Integer, default=1)
     campaign_name = db.Column(db.String(100), default='The fool\'s legacy')
     session_date = db.Column(db.DateTime, nullable=True)
+    description = db.Column(db.Text, default='')
     notes = db.Column(db.Text, default='')
     created_at = db.Column(db.DateTime, default=func.now())
     players = db.relationship(

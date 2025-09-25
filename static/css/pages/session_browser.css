@@ -1,0 +1,100 @@
+.past-session-browser {
+    font-family: var(--font-normal);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    padding: 1.5rem;
+}
+
+.past-session-browser h2 {
+    font-size: 1.8rem;
+    font-family: var(--font-fantasy);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    color: var(--accent);
+}
+
+.past-session-browser ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.session-browser-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    /* left, middle, right */
+    gap: 1.5rem;
+    align-items: flex-start;
+    background-color: var(--bg-lightest);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    padding: 1rem;
+    margin-bottom: 1.2rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.session-browser-item:hover {
+    background-color: var(--bg-lighter);
+    transform: translateY(-2px);
+}
+
+/* Left section (title + logo) */
+.session-browser-item h3 {
+    font-family: var(--font-fantasy);
+    font-size: var(--fs-large);
+    color: var(--link-color);
+    margin: 0 0 0.5rem 0;
+}
+
+.session-logo {
+    margin-top: 0.5rem;
+}
+
+.session-browser-image {
+    max-width: 120px;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+/* Middle section (details + notes) */
+.session-browser-item p {
+    margin: 0.4rem 0;
+    font-size: var(--fs-base);
+    color: var(--subtle-text);
+}
+
+.session-browser-item strong {
+    color: var(--text-color);
+}
+
+/* Right section (memes) */
+.session-memes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.session-memes img {
+    max-width: 100px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
+    .session-browser-item {
+        grid-template-columns: 1fr;
+        /* stack vertically */
+    }
+
+    .session-memes {
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+}

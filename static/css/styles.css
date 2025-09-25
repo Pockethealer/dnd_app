@@ -9,5 +9,6 @@
 @import url("components/cards.css");
 @import url("components/tooltip.css");
 @import url("components/comments.css");
+@import url("pages/session_browser.css");
 
 @import url("layout.css");

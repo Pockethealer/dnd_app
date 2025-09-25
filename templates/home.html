@@ -1,4 +1,5 @@
 {%extends "base.html"%} {%block title%}Home{%endblock%} {% block content %}
+
 <body>
   <section class="landing-container">
     <h1>The Fool's Legacy</h1>
@@ -17,42 +18,32 @@
             </h3>
             <p>
               <span style="font-size: 180%"><strong>Date:</strong></span>
-              <span
-                style="
+              <span style="
                   color: greenyellow;
                   font-weight: bold;
                   font-family: Cormorant Garamond, sherif;
                   font-size: 200%;
-                "
-                >{{ session.session_date.strftime("%Y %b %d ") if
+                ">{{ session.session_date.strftime("%Y %b %d ") if
                 session.session_date else "TBA" }}
               </span>
             </p>
             {% if session.image %}
             <div class="session-image-container">
-              <img
-                src="{{ url_for('upload.media_file', filename=session.image) }}"
-                alt="Image for {{ session.name }}"
-                class="session-image"
-              />
+              <img src="{{ url_for('upload.media_file', filename=session.image) }}" alt="Image for {{ session.name }}"
+                class="session-image" />
             </div>
             {%endif%}
             <p><strong>Title:</strong> {{ session.name }}</p>
             <p>
-              <strong></strong> {{ session.notes[:150] ~ ('...' if
-              session.notes|length > 150 else '') }}
+              <strong>Description:</strong> {{ session.description[:150] ~ ('...' if
+              session.description|length > 150 else '') }}
             </p>
             <p>
               <strong>Players:</strong>
               {% if session.players.count() > 0 %}{% for player in
               session.players %}
-              <a
-                href="#"
-                class="link"
-                data-name="{{ player.name | lower }}"
-                data-model="player"
-                >{{ player.name }}</a
-              >{% if not loop.last %}, {% endif %} {% endfor %} {% else %} None
+              <a href="#" class="link" data-name="{{ player.name | lower }}" data-model="player">{{ player.name }}</a>{%
+              if not loop.last %}, {% endif %} {% endfor %} {% else %} None
               {% endif %}
             </p>
           </li>
@@ -75,26 +66,25 @@
               %Y") if sw.session.session_date else "Unknown" }}
             </p>
             <p><strong>Title:</strong> {{ sw.session.name }}</p>
-            <p>
-              {{ sw.session.notes[:150] ~ ('...' if sw.session.notes|length >
+            <p><strong>Description:</strong>
+              {{ sw.session.description[:150] ~ ('...' if sw.session.description|length >
               150 else '') }}
             </p>
             <p>
               The winner of this session's meme contest:
-              <span
-                style="
+              <span style="
                   color: aqua;
                   font-weight: bold;
                   font-family: Cormorant Garamond, sherif;
                   font-size: 200%;
-                "
-                >{{ sw.winner if sw.winner else 'No winner' }}</span
-              >
+                ">{{ sw.winner if sw.winner else 'No winner' }}</span>
             </p>
           </li>
           {% else %}
           <li>No past sessions.</li>
           {% endfor %}
+          <a href="{{ url_for('views.browse_sessions')}}">Click here to browse all past sessions</a>
+
         </ul>
       </div>
       <div class="meme-contest">
@@ -103,17 +93,11 @@
         <div class="meme-grid">
           {% for image in fan_content %}
           <div class="session-image-container">
-            <img
-              src="{{ url_for('upload.media_file', filename=image.file_path) }}"
-              alt="Image for meme contest"
-              class="contest-image"
-            />
-            <a
-              href="/vote/{{ image.user_id }}/{{ image.id }}"
-              class="vote-button heart"
-              title="Vote for this meme"
-              onclick="return confirm('Are you sure you want to vote for this image? Once you vote you can not unso your action!');"
-            >
+            <a href="{{ url_for('upload.media_file', filename=image.file_path) }}"><img
+                src="{{ url_for('upload.media_file', filename=image.file_path) }}" alt="Image for meme contest"
+                class="contest-image" /></a>
+            <a href="/vote/{{ image.user_id }}/{{ image.id }}" class="vote-button heart" title="Vote for this meme"
+              onclick="return confirm('Are you sure you want to vote for this image? Once you vote you can not unso your action!');">
             </a>
           </div>
           {% endfor %}
