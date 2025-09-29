@@ -47,6 +47,19 @@ export function buildForm(fields, data = {}, model, onDeleteClick = null) {
       noneCheckboxWrapper.appendChild(noneCheckbox);
       noneCheckboxWrapper.appendChild(noneLabel);
       input.appendChild(noneCheckboxWrapper);
+
+      // Create toggle button
+      const toggleButton = createElement("button", {
+        type: "button",
+        className: "btn btn-link btn-sm mb-2",
+        textContent: "Show options",
+      });
+
+      // Create collapsible container for checkboxes
+      const collapsibleDiv = createElement("div", {
+        className: "collapsible-checkboxes",
+        style: "display: none;", // hidden initially
+      });
       (field.choices || []).forEach((choice) => {
         const checkboxId = `field-${field.name}-${choice.id}`;
 
@@ -88,8 +101,22 @@ export function buildForm(fields, data = {}, model, onDeleteClick = null) {
         checkboxLabel.appendChild(labelLink);
         checkboxWrapper.appendChild(checkbox);
         checkboxWrapper.appendChild(checkboxLabel);
-        input.appendChild(checkboxWrapper);
+        collapsibleDiv.appendChild(checkboxWrapper);
       });
+      // Toggle logic
+      toggleButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (collapsibleDiv.style.display === "none") {
+          collapsibleDiv.style.display = "block";
+          toggleButton.textContent = "Hide options";
+        } else {
+          collapsibleDiv.style.display = "none";
+          toggleButton.textContent = "Show options";
+        }
+      });
+
+      input.appendChild(toggleButton);
+      input.appendChild(collapsibleDiv);
     } else {
       switch (field.type) {
         case "boolean":
@@ -168,6 +195,7 @@ export function buildForm(fields, data = {}, model, onDeleteClick = null) {
       input.required = true;
     }
     if (field.name == "slug") input.readOnly = true;
+
 
     wrapper.appendChild(label);
     wrapper.appendChild(input);

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy.inspection import inspect
-from .models import MODELS, Rarity, Pulls, User, Gatcha, Rarity
+from .models import MODELS, Rarity, Pulls, User, Rarity, Item
 from . import db
 from datetime import datetime
 import random
@@ -66,7 +66,7 @@ def pulling_js(amount=1):
     if(current_user.tokens<=0):
         flash(message="You dont have enough tokens, but nice try!")
         return None
-    items = Gatcha.query.all()
+    items = Item.query.filter_by(pullable=True).all()
     pulled_items = []
     
     for i in range(amount):
@@ -95,9 +95,9 @@ def pull_hystory(no=20):
     history=[]
     for log in logs:
         history.append({
-            'name': log.gatcha.name,
-            'rarity': log.gatcha.rarity.name.lower(),
-            'image': log.gatcha.image,
+            'name': log.item.name,
+            'rarity': log.item.rarity.name.lower(),
+            'image': log.item.image,
             'pulled_at': log.pull_time.strftime('%Y-%m-%d %H:%M:%S')
         })
     return jsonify(history)

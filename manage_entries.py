@@ -238,7 +238,6 @@ def submit_page():
                     value = datetime.fromisoformat(value)
                 except ValueError:
                     return redirect(url_for('create_pages.create_page'))
-            
             clean_data[key] = value
 
         elif key in relationships:
@@ -394,7 +393,6 @@ def edit_entry(model_name, entry_id):
                                         value = datetime.fromisoformat(value)
                                     except ValueError:
                                         return jsonify({'error': f"Invalid datetime format for '{key}'"}), 400
-                                    
                                 elif isinstance(col_type, Date):
                                     try:
                                         value = datetime.fromisoformat(value).date()

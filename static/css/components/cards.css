@@ -6,6 +6,11 @@
   margin-top: 2rem;
 }
 
+.entry-selectors {
+  flex: 1;
+  max-width: 30%;
+}
+
 .entry-form {
   flex: 1;
   max-width: 50%;
@@ -14,7 +19,7 @@
 .entry-list {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 

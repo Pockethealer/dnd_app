@@ -2,7 +2,7 @@
 block content %}
 <h2>Entry Management</h2>
 <div class="entry-container">
-  <div>
+  <div class="entry-selectors">
     <div>
       <label for="pageType" class="form-label fw-bold">Select Entry Type</label>
       <select id="pageType" class="form-select">
@@ -20,9 +20,7 @@ block content %}
     </div>
 
     <div>
-      <label for="editEntrySelect" class="form-label"
-        >Edit Existing Entry</label
-      >
+      <label for="editEntrySelect" class="form-label">Edit Existing Entry</label>
       <select id="editEntrySelect" class="form-select" disabled>
         <option value="" disabled selected>Select an entry to edit</option>
       </select>

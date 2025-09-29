@@ -39,7 +39,7 @@ player_magic_items = db.Table(
     db.Column(
         'magic_item_id',
         db.Integer,
-        db.ForeignKey('magic_item.id', ondelete='CASCADE', name='fk_player_magic_items_magic_item_id'),
+        db.ForeignKey('item.id', ondelete='CASCADE', name='fk_player_magic_items_magic_item_id'),
         primary_key=True
     )
 )
@@ -63,7 +63,7 @@ magicitem_spells = db.Table(
     db.Column(
         'magic_item_id',
         db.Integer,
-        db.ForeignKey('magic_item.id', ondelete='CASCADE', name='fk_magicitem_spells_magic_item_id'),
+        db.ForeignKey('item.id', ondelete='CASCADE', name='fk_magicitem_spells_magic_item_id'),
         primary_key=True
     ),
     db.Column(
@@ -203,7 +203,7 @@ class Spell(db.Model):
     image = db.Column(db.String(255), nullable=True)
     monsters = db.relationship('Monster', secondary=monster_spells, back_populates='spells')
     items = db.relationship(
-        'MagicItem',
+        'Item',
         secondary=magicitem_spells,
         back_populates='spells',
         lazy='dynamic'
@@ -242,33 +242,6 @@ class Session(db.Model):
         back_populates='sessions',
         lazy='dynamic'
     )
-    image = db.Column(db.String(255), nullable=True)
-    def __str__(self):
-        return self.name
-
-class MagicItem(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
-    slug = db.Column(db.String(200), nullable=False, unique=True)
-    rarity = db.Column(db.String(50),default='Rare')
-    type = db.Column(db.String(50),default='Weapon')
-    cost = db.Column(db.Integer,default=10)
-    description = db.Column(db.Text,default='Placeholder')
-    found_in_quest = db.Column(db.Integer, db.ForeignKey('quest.id'))
-    created_at = db.Column(db.DateTime, default=func.now())
-    players = db.relationship(
-        'PlayerCharacter',
-        secondary=player_magic_items,
-        back_populates='items',
-        lazy='dynamic'
-    )
-    spells = db.relationship(
-        'Spell',
-        secondary=magicitem_spells,
-        back_populates='items',
-        lazy='dynamic'
-    )
-
     image = db.Column(db.String(255), nullable=True)
     def __str__(self):
         return self.name
@@ -358,7 +331,7 @@ class PlayerCharacter(db.Model):
         lazy='dynamic'
     )
     items = db.relationship(
-        'MagicItem',
+        'Item',
         secondary=player_magic_items,
         back_populates='players',
         lazy='dynamic'
@@ -397,28 +370,47 @@ class Sequence(db.Model):
     def __str__(self):
         return self.title
     
-class Gatcha(db.Model):
+
+class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False, unique=True)
     slug = db.Column(db.String(200), nullable=False, unique=True)
     rarity = db.Column(Enum(Rarity), nullable=False, default=Rarity.common)
-    description = db.Column(db.String(200), default="No description.")
+    description = db.Column(db.Text, default='No description.')
     image = db.Column(db.String(255), nullable=True)
-    # Add cascade delete for pulls
-    pulls = db.relationship("Pulls", back_populates="gatcha", lazy=True, cascade="all, delete-orphan")
-
+    type = db.Column(db.String(50), default="Misc")
+    cost = db.Column(db.Integer, default=100)
+    found_in_quest = db.Column(db.Integer, db.ForeignKey('quest.id'))
+    pullable = db.Column(db.Boolean, default=True)
+    stackable = db.Column(db.Boolean, default=False)
+    stack_size = db.Column(db.Integer, default=5)
+    effects = db.Column(db.String(200), default="Nothing")
+    pulls = db.relationship("Pulls", back_populates="item", lazy=True, cascade="all, delete-orphan")
+    players = db.relationship(
+        'PlayerCharacter',
+        secondary=player_magic_items,
+        back_populates='items',
+        lazy='dynamic'
+    )
+    spells = db.relationship(
+        'Spell',
+        secondary=magicitem_spells,
+        back_populates='items',
+        lazy='dynamic'
+    )
     def __str__(self):
         return self.name
+
 
 class Pulls(db.Model):
     __tablename__ = 'pulls'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    gatcha_id = db.Column(db.Integer, db.ForeignKey('gatcha.id'), nullable=False)
+    gatcha_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
     pull_time = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     # Relationships for easier access
     user = db.relationship('User', backref=db.backref('pulls', lazy=True))
-    gatcha = db.relationship('Gatcha', back_populates='pulls')
+    item = db.relationship('Item', back_populates='pulls')
     def __repr__(self):
         return f"<PullLog user_id={self.user_id} item_id={self.gatcha_id} pull_time={self.pull_time}>"
 
@@ -439,7 +431,7 @@ class FanContent(db.Model):
 MODELS = {
     'player': PlayerCharacter,
     'pathway': Pathway,
-    'item': MagicItem,
+    'item': Item,
     'spell': Spell,
     'sequence': Sequence,
     'page': Page,
@@ -449,7 +441,6 @@ MODELS = {
     'session': Session,
     'user': User,
     'comment':Comment,
-    'gatcha':Gatcha,
     'fancontent':FanContent
 }
 def generate_slug(__mapper, __connection, target):

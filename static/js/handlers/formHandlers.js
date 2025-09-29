@@ -19,6 +19,16 @@ export async function handleFormSubmit(e, form, onSuccess) {
       data[key] = value;
     }
   }
+  const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(cb => {
+    if (!(cb.name in data)) {
+      // Checkbox was not checked, so set default value
+      data[cb.name] = false;
+    } else {
+      // Convert value to boolean if it was checked
+      data[cb.name] = true;
+    }
+  });
   const model = data.page_type;
   const id = data.id;
 
