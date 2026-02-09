@@ -2,12 +2,10 @@
 
 ---
 
-## Feel free to browse, and while a large part of the code is vibe-coded I learned the fundamental principles along the way and now I only write css with llm-s.
+## Since it is my first endeavor to webapp programming it contains a lot of flaws, and should be treated only as a reference for my learning process.
 
 ---
 
-## The architechure is mainly flask with jinja2, with sqllite3 and sqlalchemy orm, with ajax style js structuring.
+## The architechure is mainly flask with jinja2, with sqllite3 and sqlalchemy orm, mainly ssr and some ajax.
 
 ---
-
-Tolder Inc.
